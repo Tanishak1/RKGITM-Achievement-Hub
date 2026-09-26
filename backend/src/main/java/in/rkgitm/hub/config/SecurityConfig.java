@@ -1,0 +1,3 @@
+package in.rkgitm.hub.config;
+import org.springframework.context.annotation.*; import org.springframework.security.config.annotation.web.builders.HttpSecurity; import org.springframework.security.web.SecurityFilterChain;
+@Configuration public class SecurityConfig{@Bean SecurityFilterChain filterChain(HttpSecurity http)throws Exception{return http.csrf(c->c.disable()).authorizeHttpRequests(a->a.requestMatchers("/api/achievements/public").permitAll().requestMatchers(org.springframework.http.HttpMethod.POST,"/api/achievements").permitAll().anyRequest().authenticated()).httpBasic(b->{}).build();}}
