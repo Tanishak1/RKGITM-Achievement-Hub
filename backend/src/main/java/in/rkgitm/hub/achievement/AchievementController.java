@@ -1,9 +1,15 @@
 package in.rkgitm.hub.achievement;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-@RestController @RequestMapping("/api/achievements") @CrossOrigin
+@RestController @RequestMapping("/api/achievements") @CrossOrigin(origins="*")
 public class AchievementController{
- private final AchievementRepository repo; public AchievementController(AchievementRepository repo){this.repo=repo;}
+ private final AchievementRepository repo;
+ public AchievementController(AchievementRepository repo){this.repo=repo;}
  @GetMapping("/public") public List<Achievement> approved(){return repo.findByStatusOrderByCreatedAtDesc(Achievement.Status.APPROVED);}
+ @GetMapping("/pending") public List<Achievement> pending(){return repo.findByStatusOrderByCreatedAtDesc(Achievement.Status.PENDING);}
  @PostMapping public Achievement submit(@RequestBody Achievement a){a.setStatus(Achievement.Status.PENDING);return repo.save(a);}
+ @PatchMapping("/{id}/status") public ResponseEntity<Achievement> status(@PathVariable Long id,@RequestParam Achievement.Status value){
+  return repo.findById(id).map(a->{a.setStatus(value);return ResponseEntity.ok(repo.save(a));}).orElse(ResponseEntity.notFound().build());
+ }
 }
