@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: rkgitm-achievement-hub-api
+    runtime: docker
+    rootDir: backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 8080
