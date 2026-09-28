@@ -15,7 +15,10 @@ export default function Login(){
    const r=await fetch(API+"/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:fd.get("username"),password:fd.get("password")})});
    if(!r.ok)throw new Error();
    const data=await r.json();
-   sessionStorage.setItem("rkgitm_token",data.token);\n   sessionStorage.setItem("rkgitm_role",data.role);\n   sessionStorage.setItem("rkgitm_uid",data.uid||"");\n   router.replace(data.role==="ADMIN"?"/admin":data.role==="FACULTY"?"/faculty":"/submit");
+   sessionStorage.setItem("rkgitm_token",data.token);
+   sessionStorage.setItem("rkgitm_role",data.role);
+   sessionStorage.setItem("rkgitm_uid",data.uid||"");
+   router.replace(data.role==="ADMIN"?"/admin":data.role==="FACULTY"?"/faculty":"/submit");
   }catch{setMsg("Invalid credentials or authentication service unavailable.");}
   finally{setBusy(false);}
  }
