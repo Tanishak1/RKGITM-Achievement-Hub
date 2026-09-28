@@ -25,3 +25,24 @@
 .cmsForm{display:grid;grid-template-columns:1fr 2fr 1fr 1fr;gap:12px;background:#fff;border:1px solid var(--line);padding:22px;margin:32px 0}.cmsForm input,.cmsForm select,.cmsForm textarea{border:1px solid var(--line);padding:13px;font:inherit}.cmsForm textarea{grid-column:1/-1;min-height:110px;resize:vertical}.publishCheck{display:flex;align-items:center;gap:8px}.cmsForm button{background:var(--ink);color:#fff;border:0;padding:13px 18px;font-weight:700}.cmsList{display:grid;gap:12px}.cmsList article{display:flex;justify-content:space-between;gap:20px;background:#fff;border:1px solid var(--line);padding:22px}.cmsList h2{margin:8px 0}.cmsType{font-size:10px;letter-spacing:.12em}.cmsActions{display:flex;gap:8px;align-items:center}.cmsActions button{padding:10px 14px;border:1px solid var(--line);background:#fff}.cmsActions .danger{color:#a21d1d}@media(max-width:850px){.cmsForm{grid-template-columns:1fr}.cmsForm textarea{grid-column:auto}.cmsList article{display:block}.cmsActions{margin-top:18px}}
 .contentState{padding:50px;border:1px solid var(--line);background:#fff;font-size:18px}.contentState strong{font-size:26px}.contentState p{color:#666;margin-top:10px}.recordLink{display:block;margin-top:24px;font-weight:700;text-decoration:underline}
 .studentDash{min-height:100vh;padding:48px max(5vw,24px);background:#f5f2eb}.studentTop{display:flex;justify-content:space-between;gap:24px;align-items:end}.studentTop h1{font-size:clamp(40px,5vw,70px);margin:8px 0}.studentTop>div:last-child{display:flex;gap:10px}.studentTop button{padding:12px;border:1px solid var(--line);background:transparent}.profileScore,.studentStats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:32px 0}.profileScore>div,.studentStats article{background:#fff;border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;gap:8px}.profileScore strong,.studentStats strong{font-size:34px}.dashColumns{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:42px}.myPosts,.leaderboard{display:grid;gap:9px}.myPosts article,.leaderboard article{background:#fff;border:1px solid var(--line);padding:16px;display:flex;justify-content:space-between;align-items:center;gap:14px}.myPosts small,.leaderboard small{display:block;color:#666;margin-top:4px}.leaderboard article.me{outline:2px solid #111}.leaderboard article>strong{font-size:22px}.leaderboard article>div{flex:1}@media(max-width:800px){.studentTop{display:block}.studentTop>div:last-child{margin-top:20px}.profileScore,.studentStats{grid-template-columns:1fr 1fr}.dashColumns{grid-template-columns:1fr}}
+/* Mobile polish */
+@media(max-width:600px){
+  .mainNav{height:68px;padding:0 18px;background:rgba(247,245,239,.94);backdrop-filter:blur(12px)}
+  .mainNav>strong{font-size:14px;letter-spacing:-.02em}
+  .menuBtn{width:40px;height:40px;border-radius:12px;box-shadow:0 5px 18px rgba(16,24,32,.06)}
+  .mobileMenu{top:58px;left:12px;right:12px;padding:10px;border-radius:16px;box-shadow:0 22px 55px rgba(16,24,32,.22)}
+  .mobileMenu a{padding:13px 15px;border-radius:9px}
+  .mobileMenu .menuAdmin{margin-top:8px;text-align:center}
+  .hero{min-height:auto;padding:72px 24px 68px}
+  .hero .eyebrow{font-size:10px;letter-spacing:.16em}
+  .hero h1{font-size:clamp(48px,14vw,64px);line-height:.92;margin:20px 0 24px;letter-spacing:-.065em}
+  .hero em:after{height:4px;bottom:-4px}
+  .lead{font-size:17px;line-height:1.55}
+  .actions{margin-top:30px;display:grid;width:100%;gap:10px}
+  .actions a{width:100%;padding:15px 18px;text-align:center;border-radius:8px}
+  .section{padding:68px 20px}
+  h2{font-size:40px}
+  .grid{margin-top:36px;border:0;gap:12px}
+  article{border:1px solid var(--line);border-radius:14px;min-height:210px}
+  .cta{margin:12px 20px 54px;padding:34px 26px;border-radius:16px}
+}
