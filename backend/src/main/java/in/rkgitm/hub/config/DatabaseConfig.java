@@ -21,16 +21,38 @@ public class DatabaseConfig {
             ds.setPassword(env.getProperty("DATABASE_PASSWORD", "postgres"));
             return ds;
         }
+
         raw = raw.trim();
-        if (raw.startsWith("jdbc:")) raw = raw.substring(5);
-        URI uri = URI.create(raw);
-        String[] userInfo = uri.getRawUserInfo() == null ? new String[0] : uri.getRawUserInfo().split(":", 2);
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl("jdbc:postgresql://" + uri.getHost() + ":" + (uri.getPort() == -1 ? 5432 : uri.getPort()) + uri.getPath());
+
+        // Render may contain either a normal PostgreSQL URI or an already-converted JDBC URL.
+        if (raw.startsWith("jdbc:postgresql://")) {
+            ds.setJdbcUrl(raw);
+            ds.setUsername(env.getProperty("DATABASE_USER", "postgres"));
+            String password = env.getProperty("DATABASE_PASSWORD");
+            if (password != null && !password.isBlank()) ds.setPassword(password);
+            return ds;
+        }
+
+        if (!raw.startsWith("postgresql://") && !raw.startsWith("postgres://")) {
+            throw new IllegalArgumentException("DATABASE_URL must start with postgresql://, postgres://, or jdbc:postgresql://");
+        }
+
+        URI uri = URI.create(raw);
+        if (uri.getHost() == null || uri.getPath() == null) {
+            throw new IllegalArgumentException("DATABASE_URL is not a valid PostgreSQL URI");
+        }
+
+        String[] userInfo = uri.getRawUserInfo() == null ? new String[0] : uri.getRawUserInfo().split(":", 2);
+        int port = uri.getPort() == -1 ? 5432 : uri.getPort();
+        ds.setJdbcUrl("jdbc:postgresql://" + uri.getHost() + ":" + port + uri.getPath());
         if (userInfo.length > 0) ds.setUsername(URLDecoder.decode(userInfo[0], StandardCharsets.UTF_8));
         else ds.setUsername(env.getProperty("DATABASE_USER", "postgres"));
         if (userInfo.length > 1) ds.setPassword(URLDecoder.decode(userInfo[1], StandardCharsets.UTF_8));
-        else ds.setPassword(env.getProperty("DATABASE_PASSWORD", ""));
+        else {
+            String password = env.getProperty("DATABASE_PASSWORD");
+            if (password != null) ds.setPassword(password);
+        }
         return ds;
     }
 }
