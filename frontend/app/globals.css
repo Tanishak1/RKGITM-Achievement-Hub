@@ -96,3 +96,21 @@
 .saSide nav hr,.saSide nav [role="separator"]{display:none!important}
 .saSide nav a{min-height:48px;margin:5px 0;padding:11px 12px;line-height:1.2}
 .saSide nav a span,.saSide nav a b{position:relative;z-index:2}
+
+/* Admin V5 sidebar — balanced, reference-inspired */
+.saShell{grid-template-columns:270px minmax(0,1fr)!important}
+.saSide{width:270px!important;padding:22px 18px!important;background:linear-gradient(180deg,#0a1734 0%,#10244c 62%,#151b52 100%)!important}
+.saBrand{padding:0 4px 22px!important;margin-bottom:14px!important;border-bottom:1px solid rgba(255,255,255,.09)}
+.saBrand>b{width:46px!important;height:46px!important;border-radius:13px!important;flex:0 0 46px!important}
+.saBrand strong{font-size:20px!important;letter-spacing:.01em}.saBrand small{font-size:12px!important;color:#78b7ff!important}
+.saSide nav{display:flex!important;flex-direction:column!important;gap:5px!important;width:100%!important}
+.saSide nav a{width:100%!important;min-height:48px!important;margin:0!important;padding:0 14px!important;display:grid!important;grid-template-columns:24px minmax(0,1fr) auto!important;align-items:center!important;gap:10px!important;border-radius:11px!important;color:#d8e2f4!important;font-size:15px!important;line-height:1!important;text-decoration:none!important;white-space:nowrap!important}
+.saSide nav a>span{font-size:19px!important;width:24px!important;text-align:center!important;color:#cbd9f3!important}
+.saSide nav a>b{font-weight:600!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.saSide nav a>i{font-style:normal!important;min-width:24px!important;height:24px!important;padding:0 7px!important;border-radius:999px!important;background:#ef4444!important;color:#fff!important;display:grid!important;place-items:center!important;font-size:12px!important}
+.saSide nav a.active{background:linear-gradient(90deg,#1598ff,#285eea)!important;color:#fff!important;box-shadow:0 8px 22px rgba(21,152,255,.3)!important}
+.saSide nav a.active>span{color:#fff!important}.saSide nav a:hover{background:rgba(255,255,255,.08)!important;transform:translateX(2px)}
+.saProfile{left:18px!important;right:18px!important;bottom:18px!important;padding-top:15px!important;border-top:1px solid rgba(255,255,255,.09)!important}
+.saMain{min-width:0!important}
+@media(max-width:1100px) and (min-width:651px){.saShell{grid-template-columns:220px minmax(0,1fr)!important}.saSide{width:220px!important;padding:20px 14px!important}.saSide nav a{padding:0 10px!important;font-size:14px!important;gap:8px!important}.saMain{padding:26px 22px 50px!important}}
+@media(max-width:650px){.saShell{display:block!important}.saSide{width:100%!important;height:68px!important;padding:10px 14px!important}.saBrand{border:0!important;margin:0!important;padding:0!important}.saSide nav{display:none!important}.saProfile{display:none!important}}
