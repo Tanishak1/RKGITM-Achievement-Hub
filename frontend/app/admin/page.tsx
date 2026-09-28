@@ -4,7 +4,7 @@ import {useRouter} from "next/navigation";
 const API=process.env.NEXT_PUBLIC_API_URL;
 type User={uid:string;name?:string;department?:string;active:boolean;createdAt?:string};
 type Overview={registeredStudents:number;liveStudents:number;registeredFaculty:number;liveFaculty:number;pendingFaculty:number;pendingStudents:number;students:User[];faculty:User[]};
-export default function Admin(){const router=useRouter();const [data,setData]=useState<Overview|null>(null);const [msg,setMsg]=useState("");const [tab,setTab]=useState<"students"|"faculty">("students");const [q,setQ]=useState("");
+export default function Admin(){const router=useRouter();const [data,setData]=useState<Overview|null>(null);const [msg,setMsg]=useState("");const [tab,setTab]=useState<"students"|"faculty">("students");const [q,setQ]=useState("");const [mobileMenu,setMobileMenu]=useState(false);
  const token=()=>typeof window==="undefined"?"":sessionStorage.getItem("rkgitm_token")||"";
  async function load(){if(!API)return setMsg("Backend connection unavailable.");try{const r=await fetch(API+"/api/super-admin/overview",{headers:{Authorization:"Bearer "+token()}});if(r.status===401||r.status===403){router.replace("/login");return}if(!r.ok)throw new Error();setData(await r.json())}catch{setMsg("Could not load control center.")}}
  useEffect(()=>{if(!token())router.replace("/login");else void load()},[]);
@@ -13,10 +13,10 @@ export default function Admin(){const router=useRouter();const [data,setData]=us
  return <main className="saShell"><aside className="saSide saSideV9">
   <div className="saBrandV9">
     <div className="saLogoV9">RA</div>
-    <div className="saBrandTextV9"><strong>RKGITM</strong><span>Achievement Hub</span></div>
+    <div className="saBrandTextV9"><strong>RKGITM</strong><span>Achievement Hub</span></div><button className="saMenuBtnV10" aria-label="Open admin menu" onClick={()=>setMobileMenu(v=>!v)}>{mobileMenu?"×":"☰"}</button>
   </div>
 
-  <nav className="saNavV9">
+  <nav className={`saNavV9 ${mobileMenu?"mobileOpen":""}`}>
     <a className="saNavItemV9 active" href="/admin"><span className="saIconV9">⌂</span><span className="saLabelV9">Overview</span></a>
     <a className="saNavItemV9" href="#accounts" onClick={()=>setTab("students")}><span className="saIconV9">♙</span><span className="saLabelV9">Students</span></a>
     <a className="saNavItemV9" href="#accounts" onClick={()=>setTab("faculty")}><span className="saIconV9">♙</span><span className="saLabelV9">Faculty</span></a>
@@ -29,7 +29,7 @@ export default function Admin(){const router=useRouter();const [data,setData]=us
     <a className="saNavItemV9" href="/admin/content"><span className="saIconV9">⚙</span><span className="saLabelV9">Settings</span></a>
   </nav>
 
-  <div className="saBottomV9">
+  <div className={`saBottomV9 ${mobileMenu?"mobileOpen":""}`}>
     <div className="saInfoCardV9">
       <div className="saInfoIconV9">🏆</div>
       <strong>Building a Recognized Campus</strong>
