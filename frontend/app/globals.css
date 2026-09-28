@@ -240,3 +240,7 @@
  .saInfoCardV9{display:none!important}
  .saProfileV9{margin-top:0!important}
 }
+
+/* Sidebar removed permanently from super admin layout */
+.saShell{display:block!important;grid-template-columns:none!important}
+.saMain{width:100%!important;max-width:none!important;margin:0!important}
