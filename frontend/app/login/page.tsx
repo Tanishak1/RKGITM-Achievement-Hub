@@ -18,7 +18,7 @@ export default function Login(){
    sessionStorage.setItem("rkgitm_token",data.token);
    sessionStorage.setItem("rkgitm_role",data.role);
    sessionStorage.setItem("rkgitm_uid",data.uid||"");
-   router.replace(data.role==="ADMIN"?"/admin":data.role==="FACULTY"?"/faculty":"/submit");
+   router.replace(data.role==="ADMIN"?"/admin":data.role==="FACULTY"?"/faculty":"/student");
   }catch{setMsg("Invalid credentials or authentication service unavailable.");}
   finally{setBusy(false);}
  }
