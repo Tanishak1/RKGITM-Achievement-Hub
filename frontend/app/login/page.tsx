@@ -15,8 +15,7 @@ export default function Login(){
    const r=await fetch(API+"/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:fd.get("username"),password:fd.get("password")})});
    if(!r.ok)throw new Error();
    const data=await r.json();
-   sessionStorage.setItem("rkgitm_token",data.token);
-   router.replace("/faculty");
+   sessionStorage.setItem("rkgitm_token",data.token);\n   sessionStorage.setItem("rkgitm_role",data.role);\n   sessionStorage.setItem("rkgitm_uid",data.uid||"");\n   router.replace(data.role==="ADMIN"?"/admin":data.role==="FACULTY"?"/faculty":"/submit");
   }catch{setMsg("Invalid credentials or authentication service unavailable.");}
   finally{setBusy(false);}
  }
@@ -29,7 +28,7 @@ export default function Login(){
     <h1>Review with<br/><em>confidence.</em></h1>
     <p>Sign in to verify student submissions and manage institutional records.</p>
     <form onSubmit={submit}>
-     <label>Username<input name="username" autoComplete="username" required placeholder="Institutional username"/></label>
+     <label>UID<input name="username" autoComplete="username" required placeholder="Institutional UID"/></label>
      <label>Password<input name="password" type="password" autoComplete="current-password" required placeholder="••••••••"/></label>
      <button disabled={busy}>{busy?"Signing in…":"Secure sign in →"}</button>
      {msg&&<p className="notice" role="status">{msg}</p>}
