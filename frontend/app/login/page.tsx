@@ -24,16 +24,16 @@ export default function Login(){
    <a href="/" className="backLink">← Public Achievement Hub</a>
    <section className="loginCard">
     <div className="loginBrand"><span>RA</span><div><strong>RKGITM Achievement Hub</strong><small>Authorized access</small></div></div>
-    <p className="eyebrow">FACULTY &amp; ADMIN</p>
-    <h1>Review with<br/><em>confidence.</em></h1>
-    <p>Sign in to verify student submissions and manage institutional records.</p>
+    <p className="eyebrow">CAMPUS ACCESS</p>
+    <h1>One login.<br/><em>Your campus workspace.</em></h1>
+    <p>Students and faculty use the same verified RKGITM login. New users must verify their institutional identity first.</p>
     <form onSubmit={submit}>
-     <label>UID<input name="username" autoComplete="username" required placeholder="Institutional UID"/></label>
+     <label>College Roll No. / Faculty UID<input name="username" autoComplete="username" required placeholder="RKGITM identifier"/></label>
      <label>Password<input name="password" type="password" autoComplete="current-password" required placeholder="••••••••"/></label>
      <button disabled={busy}>{busy?"Signing in…":"Secure sign in →"}</button>
      {msg&&<p className="notice" role="status">{msg}</p>}
     </form>
-    <small className="secureNote">Protected faculty workspace • Session expires automatically</small>
+    <small className="secureNote">Verified RKGITM access • Session expires automatically</small>
    </section>
   </main>
  );
