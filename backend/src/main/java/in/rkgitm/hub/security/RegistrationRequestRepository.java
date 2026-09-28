@@ -1,0 +1,1 @@
+package in.rkgitm.hub.security;import org.springframework.data.jpa.repository.JpaRepository;import java.util.List;public interface RegistrationRequestRepository extends JpaRepository<RegistrationRequest,Long>{boolean existsByCollegeRollNo(String roll);List<RegistrationRequest> findAllByOrderByCreatedAtDesc();}
