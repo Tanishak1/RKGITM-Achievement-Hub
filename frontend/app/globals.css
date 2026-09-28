@@ -96,3 +96,12 @@
 .saSide nav hr,.saSide nav [role="separator"]{display:none!important}
 .saSide nav a{min-height:48px;margin:5px 0;padding:11px 12px;line-height:1.2}
 .saSide nav a span,.saSide nav a b{position:relative;z-index:2}
+
+/* Safe sidebar navigation upgrade — preserves current desktop layout */
+.saNav{display:flex!important;flex-direction:column!important;gap:4px!important}
+.saNav a{display:grid!important;grid-template-columns:22px minmax(0,1fr) auto!important;align-items:center!important;gap:10px!important;min-height:44px!important;padding:10px 12px!important;margin:0!important;border-radius:10px!important;white-space:normal!important;line-height:1.2!important}
+.saNav a>span:not(.saNavIcon){font-size:13px!important;font-weight:600!important;min-width:0!important}
+.saNavIcon{width:22px!important;text-align:center!important;font-size:15px!important}
+.saNav i{position:static!important;margin-left:auto!important;min-width:22px!important;height:22px!important;padding:0 6px!important;display:grid!important;place-items:center!important;border-radius:999px!important;background:#ef4444!important;color:#fff!important;font-size:10px!important}
+.saNav a.active{background:linear-gradient(90deg,#1e88ff,#315be8)!important;color:#fff!important}
+.saNav a:hover{background:rgba(255,255,255,.08)!important}
