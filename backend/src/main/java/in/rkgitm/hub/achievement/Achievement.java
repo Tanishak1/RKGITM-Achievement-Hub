@@ -10,6 +10,7 @@ public class Achievement {
  private String category;
  @Column(length=2000) private String description;
  private String proofUrl;
+ private String studentUid;
  @Enumerated(EnumType.STRING) @Column(nullable=false) private Status status=Status.PENDING;
  @Column(nullable=false) private Instant createdAt=Instant.now();
  public enum Status{PENDING,APPROVED,REJECTED}
@@ -19,6 +20,7 @@ public class Achievement {
  public String getCategory(){return category;} public void setCategory(String v){category=v;}
  public String getDescription(){return description;} public void setDescription(String v){description=v;}
  public String getProofUrl(){return proofUrl;} public void setProofUrl(String v){proofUrl=v;}
+ public String getStudentUid(){return studentUid;} public void setStudentUid(String v){studentUid=v;}
  public Status getStatus(){return status;} public void setStatus(Status v){status=v;}
  public Instant getCreatedAt(){return createdAt;}
 }
