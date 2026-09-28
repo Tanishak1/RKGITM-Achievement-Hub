@@ -33,7 +33,7 @@ export default function Login(){
      <button disabled={busy}>{busy?"Signing in…":"Secure sign in →"}</button>
      {msg&&<p className="notice" role="status">{msg}</p>}
     </form>
-    <small className="secureNote">Verified RKGITM access • Session expires automatically</small>
+    <small className="secureNote">Verified RKGITM access • Session expires automatically</small><a className="proof" href="/register">New student or faculty? Verify ID & create account →</a>
    </section>
   </main>
  );
