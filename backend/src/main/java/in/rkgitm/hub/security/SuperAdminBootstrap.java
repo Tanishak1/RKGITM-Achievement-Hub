@@ -11,9 +11,9 @@ public class SuperAdminBootstrap implements CommandLineRunner {
  @Override public void run(String... args){
   String uid=env.getProperty("SUPER_ADMIN_UID"); String password=env.getProperty("SUPER_ADMIN_PASSWORD");
   if(uid==null||uid.isBlank()||password==null||password.length()<12) return;
-  if(users.findByRoleOrderByCreatedAtDesc(PortalUser.Role.ADMIN).isEmpty()){
-   PortalUser u=new PortalUser();u.setUid(uid.trim());u.setPasswordHash(encoder.encode(password));u.setRole(PortalUser.Role.ADMIN);u.setName(env.getProperty("SUPER_ADMIN_NAME","Super Admin"));u.setDepartment("ADMIN");u.setActive(true);users.save(u);
-   System.out.println("Super Admin bootstrap completed.");
-  }
+  String adminUid=uid.trim();
+  PortalUser u=users.findByUid(adminUid).orElseGet(PortalUser::new);
+  u.setUid(adminUid);u.setPasswordHash(encoder.encode(password));u.setRole(PortalUser.Role.ADMIN);u.setName(env.getProperty("SUPER_ADMIN_NAME","Super Admin"));u.setDepartment("ADMIN");u.setActive(true);users.save(u);
+  System.out.println("Super Admin credentials synchronized.");
  }
 }
