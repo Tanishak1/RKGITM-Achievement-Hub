@@ -10,18 +10,38 @@ export default function Admin(){const router=useRouter();const [data,setData]=us
  useEffect(()=>{if(!token())router.replace("/login");else void load()},[]);
  async function toggle(u:User){const r=await fetch(API+`/api/super-admin/users/${encodeURIComponent(u.uid)}/active?value=${!u.active}`,{method:"PATCH",headers:{Authorization:"Bearer "+token()}});if(r.ok)void load()}
  const users=(data?.[tab]||[]).filter(u=>(u.name+" "+u.uid+" "+u.department).toLowerCase().includes(q.toLowerCase()));
- return <main className="saShell"><aside className="saSide"><div className="saBrand"><b>RA</b><div><strong>RKGITM</strong><small>Control Center</small></div></div><nav className="saNav">
-<a className="active" href="/admin"><span className="saNavIcon">⌂</span><span>Overview</span></a>
-<a href="#accounts" onClick={()=>setTab("students")}><span className="saNavIcon">♙</span><span>Students</span></a>
-<a href="#accounts" onClick={()=>setTab("faculty")}><span className="saNavIcon">♙</span><span>Faculty</span></a>
-<a href="/admin/identities"><span className="saNavIcon">✓</span><span>Approvals</span><i>{data?.pendingFaculty||0}</i></a>
-<a href="/achievements"><span className="saNavIcon">◇</span><span>Achievements</span></a>
-<a href="/events"><span className="saNavIcon">▣</span><span>Events & Activities</span></a>
-<a href="/admin/content"><span className="saNavIcon">◉</span><span>Communities</span></a>
-<a href="/admin/content"><span className="saNavIcon">⌁</span><span>Analytics</span></a>
-<a href="/admin/content"><span className="saNavIcon">▤</span><span>Reports</span></a>
-<a href="/admin/content"><span className="saNavIcon">⚙</span><span>Settings</span></a>
-</nav><div className="saMission"><div className="saMissionIcon">🏆</div><strong>Building a Recognized Campus</strong><small>Students • Faculty • Projects<br/>Research • Communities</small></div><div className="saProfile"><span>SA</span><div><strong>Super Admin</strong><small>Full access</small></div></div></aside>
+ return <main className="saShell"><aside className="saSide saSideV9">
+  <div className="saBrandV9">
+    <div className="saLogoV9">RA</div>
+    <div className="saBrandTextV9"><strong>RKGITM</strong><span>Achievement Hub</span></div>
+  </div>
+
+  <nav className="saNavV9">
+    <a className="saNavItemV9 active" href="/admin"><span className="saIconV9">⌂</span><span className="saLabelV9">Overview</span></a>
+    <a className="saNavItemV9" href="#accounts" onClick={()=>setTab("students")}><span className="saIconV9">♙</span><span className="saLabelV9">Students</span></a>
+    <a className="saNavItemV9" href="#accounts" onClick={()=>setTab("faculty")}><span className="saIconV9">♙</span><span className="saLabelV9">Faculty</span></a>
+    <a className="saNavItemV9" href="/admin/identities"><span className="saIconV9">✓</span><span className="saLabelV9">Approvals</span><span className="saBadgeV9">{data?.pendingFaculty||0}</span></a>
+    <a className="saNavItemV9" href="/achievements"><span className="saIconV9">◇</span><span className="saLabelV9">Achievements</span></a>
+    <a className="saNavItemV9" href="/events"><span className="saIconV9">▣</span><span className="saLabelV9">Events &amp; Activities</span></a>
+    <a className="saNavItemV9" href="/admin/content"><span className="saIconV9">◉</span><span className="saLabelV9">Communities</span></a>
+    <a className="saNavItemV9" href="/admin/content"><span className="saIconV9">⌁</span><span className="saLabelV9">Analytics</span></a>
+    <a className="saNavItemV9" href="/admin/content"><span className="saIconV9">▤</span><span className="saLabelV9">Reports</span></a>
+    <a className="saNavItemV9" href="/admin/content"><span className="saIconV9">⚙</span><span className="saLabelV9">Settings</span></a>
+  </nav>
+
+  <div className="saBottomV9">
+    <div className="saInfoCardV9">
+      <div className="saInfoIconV9">🏆</div>
+      <strong>Building a Recognized Campus</strong>
+      <span>Students • Faculty • Projects</span>
+      <span>Research • Communities</span>
+    </div>
+    <div className="saProfileV9">
+      <span className="saAvatarV9">SA</span>
+      <div><strong>Super Admin</strong><span>Full access</span></div>
+    </div>
+  </div>
+</aside>
  <section className="saMain"><header className="saHeader"><div><p>ADMINISTRATION / OVERVIEW</p><h1>Control Center</h1><span>Institutional access, approvals and account health in one place.</span></div><div><a href="/">View public site ↗</a><button onClick={()=>{sessionStorage.clear();router.replace("/login")}}>Sign out</button></div></header>
  {msg&&<div className="saAlert">{msg}</div>}
  <div className="saKpis"><article><span>Students</span><strong>{data?.registeredStudents??"—"}</strong><small><b>{data?.liveStudents??0}</b> active accounts</small></article><article><span>Faculty</span><strong>{data?.registeredFaculty??"—"}</strong><small><b>{data?.liveFaculty??0}</b> active accounts</small></article><article className={(data?.pendingFaculty||0)>0?"attention":""}><span>Faculty approvals</span><strong>{data?.pendingFaculty??"—"}</strong><a href="/admin/identities">Review requests →</a></article><article className={(data?.pendingStudents||0)>0?"attention":""}><span>Student approvals</span><strong>{data?.pendingStudents??"—"}</strong><small>Handled by faculty</small></article></div>
