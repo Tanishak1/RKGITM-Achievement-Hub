@@ -244,3 +244,22 @@
 /* Sidebar removed permanently from super admin layout */
 .saShell{display:block!important;grid-template-columns:none!important}
 .saMain{width:100%!important;max-width:none!important;margin:0!important}
+
+/* Admin no-sidebar responsive repair: desktop + mobile */
+.saShell{display:block!important;width:100%!important;min-height:100vh!important}
+.saMain{display:block!important;width:100%!important;max-width:1600px!important;margin:0 auto!important;padding:34px 40px 56px!important}
+.saHeader{width:100%!important}
+.saKpis{width:100%!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.saGrid{width:100%!important;grid-template-columns:minmax(0,1fr) 300px!important}
+.saPanel{min-width:0!important}
+@media(max-width:1000px){
+ .saMain{max-width:none!important;padding:26px 22px 48px!important}
+ .saKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .saGrid{grid-template-columns:1fr!important}
+ .saQuick{display:block!important}
+}
+@media(max-width:650px){
+ .saMain{padding:16px 14px 45px!important}
+ .saKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .saQuick{display:none!important}
+}
