@@ -6,7 +6,7 @@ export default function Submit(){
  async function send(e:FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);setMessage("");
   const form=e.currentTarget; const fd=new FormData(form); const body=Object.fromEntries(fd.entries());
   if(!API){setMessage("Preview mode: form UI is ready. Backend deployment will enable live submissions.");setBusy(false);return;}
-  try{const r=await fetch(API+"/api/achievements",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+  try{const r=await fetch(API+"/api/achievements",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+(sessionStorage.getItem("rkgitm_token")||"")},body:JSON.stringify(body)});
    if(!r.ok)throw new Error(); form.reset();setMessage("Submitted successfully. Your achievement is pending verification.");
   }catch{setMessage("Submission service is temporarily unavailable. Please try again later.");}finally{setBusy(false)}
  }
