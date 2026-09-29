@@ -1,15 +1,17 @@
 package in.rkgitm.hub.security;
-import org.springframework.beans.factory.annotation.Value;import org.springframework.http.*;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;import org.springframework.web.bind.annotation.*;import java.util.Map;
+import org.springframework.beans.factory.annotation.Value;import org.springframework.http.*;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;import org.springframework.web.bind.annotation.*;import java.time.Instant;import java.util.*;import java.util.concurrent.*;
 @RestController @RequestMapping("/api/auth") public class AuthController{
- private final JwtService jwt;private final PortalUserRepository users;private final String legacyUser,legacyHash;private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
- public AuthController(JwtService jwt,PortalUserRepository users,@Value("${REVIEWER_USER:}") String user,@Value("${REVIEWER_PASSWORD_HASH:}") String hash){this.jwt=jwt;this.users=users;this.legacyUser=user;this.legacyHash=hash;}
- public record Login(String username,String password){}
+ private final JwtService jwt;private final PortalUserRepository users;private final AuditService audits;private final String legacyUser,legacyHash;private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+ private final ConcurrentHashMap<String,List<Long>> attempts=new ConcurrentHashMap<>();
+ public AuthController(JwtService jwt,PortalUserRepository users,AuditService audits,@Value("${REVIEWER_USER:}") String user,@Value("${REVIEWER_PASSWORD_HASH:}") String hash){this.jwt=jwt;this.users=users;this.audits=audits;this.legacyUser=user;this.legacyHash=hash;}
+ public record Login(String username,String password){} public record PasswordChange(String currentPassword,String newPassword){}
+ private boolean limited(String key){long now=System.currentTimeMillis(),window=15*60*1000L;List<Long> a=attempts.computeIfAbsent(key,k->new CopyOnWriteArrayList<>());a.removeIf(t->t<now-window);if(a.size()>=8)return true;a.add(now);return false;}
  @PostMapping("/login") public ResponseEntity<?> login(@RequestBody Login l){
-  String username=l.username()==null?"":l.username().trim();
+  String username=l.username()==null?"":l.username().trim();if(limited(username.toLowerCase()))return ResponseEntity.status(429).body(Map.of("error","Too many login attempts. Please try again later."));
   var found=users.findByUid(username);
-  if(found.isEmpty())System.out.println("Login diagnostic: UID_NOT_FOUND");
-  if(found.isPresent()){var u=found.get();boolean passwordOk=l.password()!=null&&encoder.matches(l.password(),u.getPasswordHash());System.out.println("Login diagnostic: USER_FOUND active="+u.isActive()+" passwordMatch="+passwordOk+" role="+u.getRole());if(u.isActive()&&passwordOk)return ResponseEntity.ok(Map.of("token",jwt.create(u.getUid(),u.getRole().name()),"role",u.getRole().name(),"name",u.getName()==null?u.getUid():u.getName(),"uid",u.getUid()));}
+  if(found.isPresent()){var u=found.get();boolean passwordOk=l.password()!=null&&encoder.matches(l.password(),u.getPasswordHash());if(!u.isArchived()&&u.isActive()&&passwordOk){u.setLastActiveAt(Instant.now());users.save(u);attempts.remove(username.toLowerCase());audits.record(u.getUid(),"LOGIN","USER",u.getUid(),"Successful portal sign in");return ResponseEntity.ok(Map.of("token",jwt.create(u.getUid(),u.getRole().name()),"role",u.getRole().name(),"name",u.getName()==null?u.getUid():u.getName(),"uid",u.getUid()));}}
   if(!legacyUser.isBlank()&&legacyUser.equals(username)&&!legacyHash.isBlank()&&encoder.matches(l.password(),legacyHash))return ResponseEntity.ok(Map.of("token",jwt.create(legacyUser,"FACULTY"),"role","FACULTY","uid",legacyUser));
   return ResponseEntity.status(401).body(Map.of("error","Invalid UID or password"));
  }
+ @PostMapping("/change-password") public ResponseEntity<?> change(@RequestBody PasswordChange p,org.springframework.security.core.Authentication a){PortalUser u=users.findByUid(a.getName()).orElseThrow();if(p.currentPassword()==null||!encoder.matches(p.currentPassword(),u.getPasswordHash()))return ResponseEntity.status(400).body(Map.of("error","Current password is incorrect."));if(p.newPassword()==null||p.newPassword().length()<8)return ResponseEntity.badRequest().body(Map.of("error","New password must be at least 8 characters."));u.setPasswordHash(encoder.encode(p.newPassword()));users.save(u);audits.record(a.getName(),"PASSWORD_CHANGE","USER",u.getUid(),"Password changed by account owner");return ResponseEntity.ok(Map.of("ok",true));}
 }
