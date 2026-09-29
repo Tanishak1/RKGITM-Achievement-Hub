@@ -263,3 +263,10 @@
  .saKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
  .saQuick{display:none!important}
 }
+
+/* Dedicated Student Access tabs: isolated from global form button styles */
+.studentAccessTabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;max-width:360px;margin:22px 0 28px;padding:5px;background:#eef2f7;border:1px solid #dce3ec;border-radius:14px}
+.studentAccessTabs .studentAccessTab{appearance:none;width:100%;min-height:42px;margin:0;padding:9px 12px;border:0!important;border-radius:10px!important;background:transparent!important;color:#64748b!important;font:700 14px/1.2 inherit!important;box-shadow:none!important;cursor:pointer}
+.studentAccessTabs .studentAccessTab.active{background:#fff!important;color:#2563eb!important;box-shadow:0 3px 10px rgba(15,23,42,.10)!important}
+.studentAccessTabs .studentAccessTab:hover{color:#1d4ed8!important}
+@media(max-width:650px){.studentAccessTabs{max-width:none;margin:18px 0 22px}.studentAccessTabs .studentAccessTab{min-height:40px;font-size:13px!important;padding:8px}}
