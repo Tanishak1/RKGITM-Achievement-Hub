@@ -1007,3 +1007,15 @@
 .auditList article>div p{margin:0;color:#64748b;line-height:1.45}
 .auditList article>time{justify-self:end;text-align:right;color:#64748b;font-size:13px;white-space:normal;padding:0;border:0}
 @media(max-width:700px){.auditList article{grid-template-columns:1fr;gap:10px;padding:16px}.auditList article>time{justify-self:start;text-align:left}}
+
+
+/* Compact faculty review history */
+.historyList{display:grid;gap:8px}
+.historyList article{min-height:0!important;padding:11px 14px!important;border-radius:12px!important;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;transition:transform .2s ease,box-shadow .2s ease,background .2s ease;animation:reviewCardIn .32s ease both}
+.historyList article:nth-child(2){animation-delay:.04s}.historyList article:nth-child(3){animation-delay:.08s}.historyList article:nth-child(4){animation-delay:.12s}
+.historyList article:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.08)}
+.historyList article strong{font-size:14px}.historyList article small,.historyList article time{font-size:12px}
+.historyList .statusPill{font-size:10px;padding:5px 8px}
+@keyframes reviewCardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.historyList article{padding:10px 11px!important;gap:9px;grid-template-columns:auto minmax(0,1fr)}.historyList article time{grid-column:2}}
+@media(prefers-reduced-motion:reduce){.historyList article{animation:none;transition:none}}
