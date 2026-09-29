@@ -559,3 +559,162 @@
   .saAccounts .saPanelHead,.saFilters{padding-left:14px!important;padding-right:14px!important}
   .saTr:not(.head),.saEmpty{margin-left:14px!important;margin-right:14px!important}
 }
+
+
+/* === Control Center layout hardening — desktop + mobile === */
+/* Analytics always gets a real inner gutter; rows never touch the card border. */
+.saAnalytics{padding:0!important}
+.saAnalytics .saPanelHead{padding:26px 28px 18px!important}
+.saAnalytics .saBars{
+  width:100%!important;
+  margin:0!important;
+  padding:8px 28px 26px!important;
+  display:grid!important;
+  gap:14px!important;
+}
+.saAnalytics .saBars>div{
+  width:100%!important;
+  min-width:0!important;
+  display:grid!important;
+  grid-template-columns:120px minmax(140px,1fr) 44px 120px!important;
+  align-items:center!important;
+  gap:14px!important;
+  padding:0!important;
+}
+.saAnalytics .saBars>div>span{
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  font-size:13px!important;
+  line-height:1.25!important;
+  font-weight:700!important;
+  color:#334155!important;
+}
+.saAnalytics .saBars>div>div{
+  width:100%!important;
+  min-width:0!important;
+  height:10px!important;
+  margin:0!important;
+}
+.saAnalytics .saBars>div>strong{
+  margin:0!important;
+  padding:0!important;
+  text-align:right!important;
+  font-size:14px!important;
+}
+.saAnalytics .saBars>div>small{
+  margin:0!important;
+  padding:0!important;
+  color:#64748b!important;
+  white-space:nowrap!important;
+}
+
+/* Account directory uses the same left/right gutter everywhere. */
+.saAccounts .saPanelHead{padding:26px 28px 18px!important}
+.saAccounts .saFilters{
+  padding:0 28px 20px!important;
+  margin:0!important;
+}
+.saAccounts .saSearch{margin:0!important;width:100%!important}
+.saAccounts .saTable{width:100%!important}
+.saAccounts .saTr{padding-left:28px!important;padding-right:28px!important}
+.saAccounts .saEmpty{
+  margin:0 28px 24px!important;
+  padding:34px 20px!important;
+  min-height:0!important;
+  border:1px dashed #d7dde3!important;
+  border-radius:12px!important;
+}
+
+/* Remove inherited generic article height from audit rows. */
+.saAudit .auditList article{
+  min-height:0!important;
+  padding:16px 0!important;
+}
+.saAudit{padding-bottom:8px!important}
+.saAudit .auditList{padding:0 24px 18px!important}
+.saAudit .saPanelHead{padding:24px!important}
+
+/* Tablet */
+@media(max-width:950px){
+  .saAnalytics .saBars>div{
+    grid-template-columns:105px minmax(100px,1fr) 38px!important;
+    gap:12px!important;
+  }
+  .saAnalytics .saBars>div>small{display:none!important}
+}
+
+/* Phone: same balanced gutter, no clipped desktop table. */
+@media(max-width:650px){
+  .saMain{padding:22px 12px 52px!important}
+  .saAnalytics .saPanelHead{padding:22px 20px 16px!important}
+  .saAnalytics .saBars{padding:10px 20px 22px!important;gap:16px!important}
+  .saAnalytics .saBars>div{
+    grid-template-columns:116px minmax(0,1fr) 26px!important;
+    gap:12px!important;
+  }
+  .saAnalytics .saBars>div>span{
+    font-size:14px!important;
+    white-space:nowrap!important;
+  }
+  .saAnalytics .saBars>div>strong{font-size:14px!important}
+
+  .saAccounts .saPanelHead{padding:22px 20px 16px!important}
+  .saAccounts .saFilters{
+    padding:0 20px 20px!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .saAccounts .saTabs{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:4px!important;
+  }
+  .saAccounts .saTabs button{min-width:0!important;padding:11px 5px!important}
+  .saAccounts .saTable{overflow:visible!important}
+  .saAccounts .saTr.head{display:none!important}
+  .saAccounts .saTr:not(.head){
+    width:auto!important;
+    min-width:0!important;
+    margin:0 20px 12px!important;
+    padding:16px!important;
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:12px!important;
+    border:1px solid #e5eaf0!important;
+    border-radius:14px!important;
+    background:#fff!important;
+  }
+  .saAccounts .saTr:not(.head)>span{min-width:0!important;overflow-wrap:anywhere!important}
+  .saAccounts .saTr:not(.head)>span:first-child,
+  .saAccounts .saTr:not(.head)>span:last-child{grid-column:1/-1!important}
+  .saAccounts .saEmpty{
+    margin:0 20px 20px!important;
+    padding:30px 16px!important;
+  }
+
+  .saAudit .saPanelHead{padding:22px 20px 12px!important}
+  .saAudit .auditList{padding:0 20px 16px!important}
+  .saAudit .auditList article{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+    padding:16px 0!important;
+  }
+  .saAudit .auditList time{grid-column:auto!important;text-align:left!important}
+}
+
+/* Very narrow phones still preserve visible left/right breathing room. */
+@media(max-width:390px){
+  .saAnalytics .saPanelHead{padding-left:16px!important;padding-right:16px!important}
+  .saAnalytics .saBars{padding-left:16px!important;padding-right:16px!important}
+  .saAnalytics .saBars>div{
+    grid-template-columns:105px minmax(0,1fr) 24px!important;
+    gap:9px!important;
+  }
+  .saAccounts .saPanelHead,
+  .saAccounts .saFilters{padding-left:16px!important;padding-right:16px!important}
+  .saAccounts .saTr:not(.head),
+  .saAccounts .saEmpty{margin-left:16px!important;margin-right:16px!important}
+}
