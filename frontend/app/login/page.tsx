@@ -1,9 +1,10 @@
 "use client";
-import {FormEvent,useState} from "react";
+import {FormEvent,useEffect,useState} from "react";
 import {useRouter} from "next/navigation";
 const API=process.env.NEXT_PUBLIC_API_URL;
 export default function Login(){
- const router=useRouter();const [mode,setMode]=useState<"ADMIN"|"FACULTY">("ADMIN"),[facultyView,setFacultyView]=useState<"CREATE"|"LOGIN">("CREATE"),[msg,setMsg]=useState(""),[busy,setBusy]=useState(false);
+ const router=useRouter();const [mode,setMode]=useState<"ADMIN"|"FACULTY">("ADMIN"),[facultyView,setFacultyView]=useState<"CREATE"|"LOGIN">("CREATE"),[msg,setMsg]=useState(""),[busy,setBusy]=useState(false),[facultyStatus,setFacultyStatus]=useState<any>(null);
+ useEffect(()=>{const id=localStorage.getItem("rkgitm_faculty_request_id");if(id&&API)fetch(API+"/api/registration/faculty-status/"+id).then(r=>r.ok?r.json():null).then(d=>d&&setFacultyStatus(d)).catch(()=>{})},[]);
  async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(!API){setMsg("Authentication service is unavailable.");return}setBusy(true);setMsg("");const fd=new FormData(e.currentTarget);try{const r=await fetch(API+"/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:fd.get("username"),password:fd.get("password")})});if(!r.ok)throw new Error();const data=await r.json();if(mode==="ADMIN"&&data.role!=="ADMIN")throw new Error();if(mode==="FACULTY"&&data.role!=="FACULTY")throw new Error();sessionStorage.setItem("rkgitm_token",data.token);sessionStorage.setItem("rkgitm_role",data.role);sessionStorage.setItem("rkgitm_uid",data.uid||"");router.replace(mode==="ADMIN"?"/admin":"/faculty")}catch{setMsg(mode==="ADMIN"?"Invalid Super Admin credentials.":"Invalid faculty credentials or faculty account is not approved yet.")}finally{setBusy(false)}}
  return <main className="loginPage"><a href="/" className="backLink">← Public Achievement Hub</a><section className="loginCard">
  <div className="loginBrand"><span>RA</span><div><strong>RKGITM Achievement Hub</strong><small>Authorized access</small></div></div>
@@ -26,6 +27,7 @@ export default function Login(){
    </div>
    {facultyView==="CREATE" ? (
     <div className="facultyCreateBox">
+     {facultyStatus&&<div className={"facultyApplicationStatus "+String(facultyStatus.status).toLowerCase()}><strong>{facultyStatus.status==="PENDING"?"Waiting for Super Admin approval":facultyStatus.status==="APPROVED"?"Faculty account approved":"Faculty request rejected"}</strong>{facultyStatus.status==="PENDING"&&<p>Your request is currently under review.</p>}{facultyStatus.status==="APPROVED"&&<><p>Your Faculty User ID is <b>{facultyStatus.userId}</b></p><button type="button" onClick={()=>navigator.clipboard.writeText(facultyStatus.userId||"")}>Copy User ID</button></>}{facultyStatus.status==="REJECTED"&&<p>Reason: {facultyStatus.rejectionReason||"Not provided"}</p>}</div>}
      <p>New faculty must first verify their RKGITM identity. After Super Admin approval, a unique Faculty User ID will be generated.</p>
      <a className="facultyCreateCta" href="/register?role=FACULTY">Create Faculty Account →</a>
      <small>Name • Department • RKGITM Faculty ID Card • Password</small>
