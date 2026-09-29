@@ -399,3 +399,6 @@
     align-content:center;
   }
 }
+
+.saAccountActions{display:flex;gap:7px;flex-wrap:wrap}.saTr>span:last-child .saDeleteBtn{border-color:#fecaca;background:#fff5f5;color:#b42318}.saTr>span:last-child .saDeleteBtn:hover{background:#fee2e2}
+@media(max-width:650px){.saAccountActions{gap:5px}.saTr>span:last-child .saDeleteBtn{padding:7px 8px}}
