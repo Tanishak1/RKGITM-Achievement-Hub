@@ -62,9 +62,9 @@ export default function StudentAccess(){
    <div className="loginBrand"><span>RA</span><div><strong>Student Portal</strong><small>RKGITM Achievement Hub</small></div></div>
    <p className="eyebrow">STUDENT ACCESS</p>
    <h1>{mode==="create"?"Create your":"Welcome back to"}<br/><em>RKGITM account.</em></h1>
-   <div className="authTabs">
-    <button type="button" className={mode==="create"?"active":""} onClick={()=>{setMode("create");setMsg("")}}>Create Account</button>
-    <button type="button" className={mode==="login"?"active":""} onClick={()=>{setMode("login");setMsg("")}}>Login</button>
+   <div className="studentAccessTabs">
+    <button type="button" className={mode==="create"?"studentAccessTab active":"studentAccessTab"} onClick={()=>{setMode("create");setMsg("")}}>Create Account</button>
+    <button type="button" className={mode==="login"?"studentAccessTab active":"studentAccessTab"} onClick={()=>{setMode("login");setMsg("")}}>Login</button>
    </div>
    {mode==="create"?<form onSubmit={createAccount}>
     <label>University Roll Number<input name="universityRollNo" required autoComplete="username" placeholder="Enter university roll number"/></label>
