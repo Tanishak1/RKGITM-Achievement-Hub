@@ -1,17 +1,15 @@
 package in.rkgitm.hub.achievement;
-import jakarta.persistence.*;
-import java.time.Instant;
+import jakarta.persistence.*;import java.time.Instant;
 @Entity @Table(name="achievements")
 public class Achievement {
  @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id;
  @Column(nullable=false) private String title;
  @Column(nullable=false) private String studentName;
- private String department;
- private String category;
+ private String department; private String category;
  @Column(length=2000) private String description;
- private String proofUrl;
- private String studentUid;
+ private String proofUrl; private String studentUid;
  @Enumerated(EnumType.STRING) @Column(nullable=false) private Status status=Status.PENDING;
+ @Column(length=1000) private String rejectionReason; private String reviewedBy; private Instant reviewedAt;
  @Column(nullable=false) private Instant createdAt=Instant.now();
  public enum Status{PENDING,APPROVED,REJECTED}
  public Long getId(){return id;} public String getTitle(){return title;} public void setTitle(String v){title=v;}
@@ -22,5 +20,7 @@ public class Achievement {
  public String getProofUrl(){return proofUrl;} public void setProofUrl(String v){proofUrl=v;}
  public String getStudentUid(){return studentUid;} public void setStudentUid(String v){studentUid=v;}
  public Status getStatus(){return status;} public void setStatus(Status v){status=v;}
+ public String getRejectionReason(){return rejectionReason;} public void setRejectionReason(String v){rejectionReason=v;}
+ public String getReviewedBy(){return reviewedBy;} public void setReviewedBy(String v){reviewedBy=v;} public Instant getReviewedAt(){return reviewedAt;} public void setReviewedAt(Instant v){reviewedAt=v;}
  public Instant getCreatedAt(){return createdAt;}
 }
