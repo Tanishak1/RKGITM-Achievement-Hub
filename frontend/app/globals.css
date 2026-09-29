@@ -277,3 +277,9 @@
 .loginCard .campusRoleTabs button.active{background:#fff!important;color:#2563eb!important;box-shadow:0 3px 10px rgba(15,23,42,.10)!important}
 .facultyCreateLink{display:inline-block;margin:16px 0 4px;font-weight:700;font-size:14px;color:#1d4ed8;text-decoration:none}
 @media(max-width:650px){.campusRoleTabs{margin:16px 0 20px}.loginCard .campusRoleTabs button{min-height:40px;font-size:13px!important;padding:8px}}
+
+.generatedFacultyId{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0;padding:14px 16px;border:1px solid #bfdbfe;border-radius:12px;background:#eff6ff}
+.generatedFacultyId span{font-size:12px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.generatedFacultyId strong{font-size:18px;color:#1d4ed8;letter-spacing:.04em}
+.generatedFacultyId button{margin-left:auto!important;width:auto!important;padding:8px 12px!important;border-radius:8px!important;background:#1d4ed8!important;color:#fff!important;font-size:12px!important}
+@media(max-width:650px){.generatedFacultyId{gap:8px;padding:12px}.generatedFacultyId strong{width:100%;font-size:16px}.generatedFacultyId button{margin-left:0!important}}
