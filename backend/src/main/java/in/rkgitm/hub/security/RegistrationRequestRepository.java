@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RegistrationRequestRepository extends JpaRepository<RegistrationRequest,Long>{
- boolean existsByCollegeRollNo(String roll);
+ boolean existsByCollegeRollNo(String roll); java.util.Optional<RegistrationRequest> findByCollegeRollNo(String roll);
  long countByRequestedRoleAndStatus(RegistrationRequest.RequestedRole role, RegistrationRequest.Status status);
  List<RegistrationRequest> findAllByOrderByCreatedAtDesc();
 
