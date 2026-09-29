@@ -1,0 +1,12 @@
+"use client";
+import {useEffect,useState} from "react";import {useParams} from "next/navigation";
+const API=process.env.NEXT_PUBLIC_API_URL;
+type A={id:number;title:string;category?:string;department?:string;description?:string;proofUrl?:string;createdAt:string};
+type P={uid:string;name?:string;department?:string;studyYear?:string;photoUrl?:string;score:number;verified:number;achievements:A[]};
+export default function PublicStudentProfile(){
+ const params=useParams<{uid:string}>();const [p,setP]=useState<P|null>(null),[loading,setLoading]=useState(true);
+ useEffect(()=>{if(!API)return setLoading(false);fetch(API+"/api/profile/"+encodeURIComponent(params.uid)).then(r=>r.ok?r.json():null).then(setP).finally(()=>setLoading(false))},[params.uid]);
+ if(loading)return <main className="profilePublic"><div className="contentState">Loading verified profile…</div></main>;
+ if(!p)return <main className="profilePublic"><a href="/">← Achievement Hub</a><div className="contentState"><strong>Profile unavailable.</strong><p>This student profile is not public or the account is inactive.</p></div></main>;
+ return <main className="profilePublic"><a className="backLink" href="/">← Achievement Hub</a><header className="publicProfileHero">{p.photoUrl?<img src={p.photoUrl} alt="Student profile"/>:<span>{(p.name||"S").slice(0,1).toUpperCase()}</span>}<div><p className="eyebrow">VERIFIED STUDENT PROFILE</p><h1>{p.name||p.uid}</h1><p>{p.department||"RKGITM"}{p.studyYear?" • "+p.studyYear:""} • {p.uid}</p></div><div className="publicProfileStats"><article><strong>{p.verified}</strong><span>Verified records</span></article><article><strong>{p.score}</strong><span>Achievement score</span></article></div></header><section className="publicProfileWork"><div><p className="eyebrow">INSTITUTIONALLY VERIFIED</p><h2>Achievements & work</h2></div><div className="directoryGrid">{p.achievements.map(a=><article key={a.id}><span>{a.category||"Achievement"}</span><h3>{a.title}</h3><p>{a.description}</p><small>{new Date(a.createdAt).toLocaleDateString()}</small>{a.proofUrl&&<a className="recordLink" href={a.proofUrl} target="_blank" rel="noreferrer">View evidence ↗</a>}</article>)}</div>{!p.achievements.length&&<div className="contentState">No verified public records yet.</div>}</section></main>
+}
