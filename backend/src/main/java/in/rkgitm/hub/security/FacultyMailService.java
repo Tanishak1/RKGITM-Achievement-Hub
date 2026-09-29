@@ -28,7 +28,7 @@ public class FacultyMailService {
     .header("Authorization","Bearer "+apiKey).header("Content-Type","application/json")
     .POST(HttpRequest.BodyPublishers.ofString(body,StandardCharsets.UTF_8)).build();
    HttpResponse<String> res=HttpClient.newHttpClient().send(req,HttpResponse.BodyHandlers.ofString());
-   if(res.statusCode()<200||res.statusCode()>=300)throw new IllegalStateException("Email provider rejected delivery: "+res.statusCode());
+   if(res.statusCode()<200||res.statusCode()>=300){String detail=res.body()==null?"":res.body();System.err.println("RESEND_DELIVERY_FAILED status="+res.statusCode()+" body="+detail);throw new IllegalStateException("Email provider rejected delivery: "+res.statusCode()+" "+detail);}
   }catch(InterruptedException e){Thread.currentThread().interrupt();throw new IllegalStateException("Email delivery interrupted.");}
    catch(Exception e){if(e instanceof IllegalStateException i)throw i;throw new IllegalStateException("Email delivery failed.");}
  }
