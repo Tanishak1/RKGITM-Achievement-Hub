@@ -9,7 +9,39 @@ export default function Login(){
  <div className="loginBrand"><span>RA</span><div><strong>RKGITM Achievement Hub</strong><small>Authorized access</small></div></div>
  <p className="eyebrow">CAMPUS ACCESS</p><h1>Institutional<br/><em>workspace access.</em></h1>
  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"5px",padding:"5px",margin:"20px 0 24px",background:"#eef2f7",border:"1px solid #dbe3ec",borderRadius:"14px"}}><button type="button" style={{minHeight:"42px",padding:"9px 12px",border:"0",borderRadius:"10px",background:mode==="ADMIN"?"#ffffff":"transparent",color:mode==="ADMIN"?"#2563eb":"#64748b",fontWeight:700,boxShadow:mode==="ADMIN"?"0 3px 10px rgba(15,23,42,.10)":"none"}} onClick={()=>{setMode("ADMIN");setMsg("")}}>Super Admin</button><button type="button" style={{minHeight:"42px",padding:"9px 12px",border:"0",borderRadius:"10px",background:mode==="FACULTY"?"#ffffff":"transparent",color:mode==="FACULTY"?"#2563eb":"#64748b",fontWeight:700,boxShadow:mode==="FACULTY"?"0 3px 10px rgba(15,23,42,.10)":"none"}} onClick={()=>{setMode("FACULTY");setMsg("")}}>Faculty</button></div>
- {mode==="ADMIN"?<><p>Secure Super Admin access for complete institutional control.</p><form onSubmit={submit}><label>Super Admin User ID<input name="username" autoComplete="username" required placeholder="Admin User ID"/></label><label>Password<input name="password" type="password" autoComplete="current-password" required placeholder="••••••••"/></label><button disabled={busy}>{busy?"Signing in…":"Super Admin Login →"}</button></form></>:<><div className="facultyFlowTabs"><button type="button" className={facultyView==="CREATE"?"active":""} onClick={()=>setFacultyView("CREATE")}>Create Account</button><button type="button" className={facultyView==="LOGIN"?"active":""} onClick={()=>setFacultyView("LOGIN")}>Login</button></div>{facultyView==="CREATE"?<div className="facultyCreateBox"><p>New faculty must first verify their RKGITM identity. After Super Admin approval, a unique Faculty User ID will be generated.</p><a className="facultyCreateCta" href="/register?role=FACULTY">Create Faculty Account →</a><small>Name • Department • RKGITM Faculty ID Card • Password</small></div>:<><p>Already approved? Login using your generated Faculty User ID and password.</p><form onSubmit={submit}><label>Faculty User ID<input name="username" autoComplete="username" required placeholder="e.g. RKG-FAC-0001"/></label><label>Password<input name="password" type="password" autoComplete="current-password" required placeholder="••••••••"/></label><button disabled={busy}>{busy?"Signing in…":"Faculty Login →"}</button></form>}</>}
+ {mode==="ADMIN" ? (
+  <>
+   <p>Secure Super Admin access for complete institutional control.</p>
+   <form onSubmit={submit}>
+    <label>Super Admin User ID<input name="username" autoComplete="username" required placeholder="Admin User ID"/></label>
+    <label>Password<input name="password" type="password" autoComplete="current-password" required placeholder="••••••••"/></label>
+    <button disabled={busy}>{busy?"Signing in…":"Super Admin Login →"}</button>
+   </form>
+  </>
+ ) : (
+  <>
+   <div className="facultyFlowTabs">
+    <button type="button" className={facultyView==="CREATE"?"active":""} onClick={()=>setFacultyView("CREATE")}>Create Account</button>
+    <button type="button" className={facultyView==="LOGIN"?"active":""} onClick={()=>setFacultyView("LOGIN")}>Login</button>
+   </div>
+   {facultyView==="CREATE" ? (
+    <div className="facultyCreateBox">
+     <p>New faculty must first verify their RKGITM identity. After Super Admin approval, a unique Faculty User ID will be generated.</p>
+     <a className="facultyCreateCta" href="/register?role=FACULTY">Create Faculty Account →</a>
+     <small>Name • Department • RKGITM Faculty ID Card • Password</small>
+    </div>
+   ) : (
+    <>
+     <p>Already approved? Login using your generated Faculty User ID and password.</p>
+     <form onSubmit={submit}>
+      <label>Faculty User ID<input name="username" autoComplete="username" required placeholder="e.g. RKG-FAC-0001"/></label>
+      <label>Password<input name="password" type="password" autoComplete="current-password" required placeholder="••••••••"/></label>
+      <button disabled={busy}>{busy?"Signing in…":"Faculty Login →"}</button>
+     </form>
+    </>
+   )}
+  </>
+ )}
  {msg&&<p className="notice" role="status">{msg}</p>}<small className="secureNote">Verified RKGITM access • Session expires automatically</small>
  </section></main>
 }
