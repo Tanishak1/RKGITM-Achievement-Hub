@@ -995,3 +995,15 @@
   .facultyPro::before,.facultyPro::after,.facultyHeader,.facultyStats article,.facultyPanel{animation:none!important}
   .facultyStats article,.facultyPanel,.facultyHeaderActions>a,.facultyHeaderActions>button,.notifBell,.historyList article{transition:none!important}
 }
+
+
+/* Professional Super Admin audit rows */
+.auditList{overflow:hidden;border:1px solid #e2e8f0;border-radius:16px;background:#fff}
+.auditList article{display:grid;grid-template-columns:minmax(150px,190px) minmax(0,1fr) minmax(170px,220px);align-items:center;gap:22px;padding:18px 20px;margin:0;border:0;border-bottom:1px solid #e2e8f0;background:#fff}
+.auditList article:last-child{border-bottom:0}
+.auditList article>span{justify-self:start;display:inline-flex;align-items:center;min-height:30px;padding:6px 10px;border:1px solid #dbeafe;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:800;letter-spacing:.05em}
+.auditList article>div{min-width:0;padding:0;border:0}
+.auditList article>div strong{display:block;margin-bottom:4px;color:#0f172a}
+.auditList article>div p{margin:0;color:#64748b;line-height:1.45}
+.auditList article>time{justify-self:end;text-align:right;color:#64748b;font-size:13px;white-space:normal;padding:0;border:0}
+@media(max-width:700px){.auditList article{grid-template-columns:1fr;gap:10px;padding:16px}.auditList article>time{justify-self:start;text-align:left}}
