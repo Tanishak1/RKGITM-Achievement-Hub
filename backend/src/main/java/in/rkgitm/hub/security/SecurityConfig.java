@@ -19,13 +19,7 @@ import org.springframework.context.annotation.*;import org.springframework.beans
  }
  @Bean CorsConfigurationSource corsConfigurationSource(){
   CorsConfiguration c=new CorsConfiguration();
-  c.setAllowedOriginPatterns(List.of(
-   frontendUrl,
-   "https://rkgitm-achievement-hub.vercel.app",
-   "https://*.vercel.app",
-   "http://localhost:*",
-   "http://127.0.0.1:*"
-  ));
+  c.setAllowedOriginPatterns(List.of("*"));
   c.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
   c.setAllowedHeaders(List.of("Authorization","Content-Type","Accept","Origin"));
   c.setExposedHeaders(List.of("Content-Disposition"));
