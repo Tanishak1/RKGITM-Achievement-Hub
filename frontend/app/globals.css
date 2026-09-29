@@ -283,3 +283,14 @@
 .generatedFacultyId strong{font-size:18px;color:#1d4ed8;letter-spacing:.04em}
 .generatedFacultyId button{margin-left:auto!important;width:auto!important;padding:8px 12px!important;border-radius:8px!important;background:#1d4ed8!important;color:#fff!important;font-size:12px!important}
 @media(max-width:650px){.generatedFacultyId{gap:8px;padding:12px}.generatedFacultyId strong{width:100%;font-size:16px}.generatedFacultyId button{margin-left:0!important}}
+
+/* Campus access selectors — dedicated light UI */
+.campusRoleTabs,.facultyFlowTabs{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important;width:100%!important;margin:20px 0 22px!important;padding:5px!important;background:#eef2f7!important;border:1px solid #dbe3ec!important;border-radius:14px!important}
+.loginPage .loginCard .campusRoleTabs button,.loginPage .loginCard .facultyFlowTabs button{width:100%!important;min-height:40px!important;margin:0!important;padding:8px 10px!important;border:0!important;border-radius:9px!important;background:transparent!important;color:#64748b!important;font-size:13px!important;font-weight:750!important;box-shadow:none!important}
+.loginPage .loginCard .campusRoleTabs button.active,.loginPage .loginCard .facultyFlowTabs button.active{background:#fff!important;color:#1d4ed8!important;box-shadow:0 3px 10px rgba(15,23,42,.10)!important}
+.facultyFlowTabs{margin-top:12px!important}
+.facultyCreateBox{padding:18px;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc}
+.facultyCreateBox p{margin:0 0 15px}
+.facultyCreateCta{display:flex;align-items:center;justify-content:center;min-height:46px;padding:10px 16px;border-radius:10px;background:#0f172a;color:#fff!important;text-decoration:none;font-weight:800}
+.facultyCreateBox small{display:block;margin-top:12px;color:#64748b;line-height:1.5}
+@media(max-width:650px){.campusRoleTabs,.facultyFlowTabs{margin:16px 0 18px!important}.facultyCreateBox{padding:14px}.facultyCreateCta{min-height:44px}}
