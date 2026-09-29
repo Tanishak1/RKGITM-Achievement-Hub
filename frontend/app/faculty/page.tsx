@@ -1,7 +1,6 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
 import {useRouter} from "next/navigation";
-import NotificationBell from "../components/NotificationBell";
 const API=process.env.NEXT_PUBLIC_API_URL;
 type A={id:number;title:string;studentName:string;department?:string;category?:string;description?:string;proofUrl?:string;status:string;rejectionReason?:string;reviewedBy?:string;reviewedAt?:string;createdAt:string};
 type R={id:number;collegeRollNo:string;universityRollNo?:string;name:string;department:string;studyYear?:string;status:string;rejectionReason?:string};
@@ -20,7 +19,7 @@ export default function Faculty(){
  function ago(v?:string){if(!v)return"";const h=Math.floor((Date.now()-new Date(v).getTime())/3600000);return h<1?"Just now":h<24?h+"h ago":Math.floor(h/24)+"d ago"}
  function exportCsv(){const rows=[["Student","Title","Department","Category","Status","Reviewer","Reviewed At"],...shown.map(x=>[x.studentName,x.title,x.department||"",x.category||"",x.status,x.reviewedBy||"",x.reviewedAt||""])];const csv=rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");const url=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));const a=document.createElement("a");a.href=url;a.download="faculty-verification-report.csv";a.click();URL.revokeObjectURL(url)}
  return <main className="facultyPro"><section className="facultyInner">
-  <header className="facultyHeader"><div><p className="eyebrow">FACULTY CONSOLE</p><h1>Verification Workspace</h1><p>Review student identities, evidence and institutional records from one queue.</p></div><div className="facultyHeaderActions"><NotificationBell/><a href="/achievements">Published records ↗</a><a href="/account/security">Security</a><button onClick={()=>{sessionStorage.clear();router.replace("/login")}}>Sign out</button></div></header>
+  <header className="facultyHeader"><div><p className="eyebrow">FACULTY CONSOLE</p><h1>Verification Workspace</h1><p>Review student identities, evidence and institutional records from one queue.</p></div><div className="facultyHeaderActions"><a href="/achievements">Published records ↗</a><a href="/account/security">Security</a><button onClick={()=>{sessionStorage.clear();router.replace("/login")}}>Sign out</button></div></header>
   {msg&&<div className="adminNotice">{msg}</div>}
   {loading?<div className="saSkeleton"><i/><i/><i/></div>:<>
   <section className="facultyStats"><article><span>Pending achievements</span><strong>{summary.pending}</strong><small>Needs verification</small></article><article><span>Approved</span><strong>{summary.approved}</strong><small>Verified records</small></article><article><span>Rejected</span><strong>{summary.rejected}</strong><small>Returned with feedback</small></article><article><span>Student access</span><strong>{pendingRegs.length}</strong><small>Pending account requests</small></article></section>
