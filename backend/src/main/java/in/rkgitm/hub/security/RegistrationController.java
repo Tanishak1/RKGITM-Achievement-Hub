@@ -4,11 +4,20 @@ import org.springframework.http.*;import org.springframework.security.core.*;imp
  private final RegistrationRequestRepository requests;private final PortalUserRepository users;private final ActivityService activity;private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
  public RegistrationController(RegistrationRequestRepository r,PortalUserRepository u,ActivityService activity){requests=r;users=u;this.activity=activity;}
  @PostMapping(consumes=MediaType.MULTIPART_FORM_DATA_VALUE) public ResponseEntity<?> register(@RequestParam String collegeRollNo,@RequestParam(required=false) String universityRollNo,@RequestParam String name,@RequestParam String department,@RequestParam(required=false) String studyYear,@RequestParam RegistrationRequest.RequestedRole requestedRole,@RequestParam String password,@RequestParam MultipartFile idCard)throws IOException{
-  if(requestedRole==RegistrationRequest.RequestedRole.FACULTY){collegeRollNo="FAC-REQ-"+UUID.randomUUID();}else if(requests.existsByCollegeRollNo(collegeRollNo)||users.existsByUid(collegeRollNo))return ResponseEntity.status(409).body(Map.of("error","A request/account already exists for this UID."));
+  RegistrationRequest existing=null;
+  if(requestedRole==RegistrationRequest.RequestedRole.FACULTY){collegeRollNo="FAC-REQ-"+UUID.randomUUID();}
+  else{
+   if(users.existsByUid(collegeRollNo))return ResponseEntity.status(409).body(Map.of("error","An active account already exists for this User ID."));
+   existing=requests.findByCollegeRollNo(collegeRollNo).orElse(null);
+   if(existing!=null&&existing.getStatus()!=RegistrationRequest.Status.REJECTED)return ResponseEntity.status(409).body(Map.of("error","A verification request already exists for this User ID."));
+  }
   if(idCard.isEmpty()||idCard.getContentType()==null||!idCard.getContentType().startsWith("image/"))return ResponseEntity.badRequest().body(Map.of("error","A college ID card image is required."));
   if(idCard.getSize()>5_000_000)return ResponseEntity.badRequest().body(Map.of("error","ID card image must be under 5 MB."));
   if(requestedRole==RegistrationRequest.RequestedRole.STUDENT&&(universityRollNo==null||universityRollNo.isBlank()||studyYear==null||studyYear.isBlank()))return ResponseEntity.badRequest().body(Map.of("error","University roll number and study year are required for students."));
-  RegistrationRequest x=new RegistrationRequest();x.setCollegeRollNo(collegeRollNo);x.setUniversityRollNo(universityRollNo);x.setName(name);x.setDepartment(department);x.setStudyYear(studyYear);x.setRequestedRole(requestedRole);x.setPasswordHash(encoder.encode(password));x.setIdCardFileName(idCard.getOriginalFilename());x.setIdCardContentType(idCard.getContentType());x.setIdCardImage(idCard.getBytes());requests.save(x);activity.audit(x.getCollegeRollNo(),"REGISTRATION_SUBMITTED","REGISTRATION",String.valueOf(x.getId()),requestedRole+" registration submitted for "+x.getName());return ResponseEntity.status(201).body(Map.of("id",x.getId(),"status","PENDING","message",requestedRole==RegistrationRequest.RequestedRole.FACULTY?"Awaiting Super Admin approval.":"Awaiting Faculty approval."));
+  RegistrationRequest x=existing==null?new RegistrationRequest():existing;
+  x.setCollegeRollNo(collegeRollNo);x.setUniversityRollNo(universityRollNo);x.setName(name);x.setDepartment(department);x.setStudyYear(studyYear);x.setRequestedRole(requestedRole);x.setStatus(RegistrationRequest.Status.PENDING);x.setRejectionReason(null);x.setPasswordHash(encoder.encode(password));x.setIdCardFileName(idCard.getOriginalFilename());x.setIdCardContentType(idCard.getContentType());x.setIdCardImage(idCard.getBytes());requests.save(x);
+  activity.audit(x.getCollegeRollNo(),existing==null?"REGISTRATION_SUBMITTED":"REGISTRATION_RESUBMITTED","REGISTRATION",String.valueOf(x.getId()),requestedRole+" registration submitted for "+x.getName());
+  return ResponseEntity.status(existing==null?201:200).body(Map.of("id",x.getId(),"status","PENDING","resubmitted",existing!=null,"message",requestedRole==RegistrationRequest.RequestedRole.FACULTY?"Awaiting Super Admin approval.":"Awaiting Faculty approval."));
  }
  private boolean admin(Authentication a){return a.getAuthorities().stream().anyMatch(x->x.getAuthority().equals("ROLE_ADMIN"));}
  private PortalUser actor(Authentication a){return users.findByUid(a.getName()).orElse(null);}
