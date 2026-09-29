@@ -15,4 +15,5 @@ import org.springframework.web.bind.annotation.*;import java.util.*;
  }
  private List<Map<String,Object>> rows(PortalUser.Role role){return users.findByRoleOrderByCreatedAtDesc(role).stream().map(u->{Map<String,Object> x=new LinkedHashMap<>();x.put("uid",u.getUid());x.put("name",u.getName());x.put("department",u.getDepartment());x.put("active",u.isActive());x.put("createdAt",u.getCreatedAt());return x;}).toList();}
  @PatchMapping("/users/{uid}/active") public Map<String,Object> active(@PathVariable String uid,@RequestParam boolean value){PortalUser u=users.findByUid(uid).orElseThrow();u.setActive(value);users.save(u);return Map.of("uid",uid,"active",value);}
+ @DeleteMapping("/faculty/{uid}") public Map<String,Object> deleteFaculty(@PathVariable String uid){PortalUser u=users.findByUid(uid).orElseThrow();if(u.getRole()!=PortalUser.Role.FACULTY)throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST,"Only faculty accounts can be deleted here.");users.delete(u);return Map.of("deleted",true,"uid",uid);}
 }
