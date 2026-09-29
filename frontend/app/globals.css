@@ -270,3 +270,10 @@
 .studentAccessTabs .studentAccessTab.active{background:#fff!important;color:#2563eb!important;box-shadow:0 3px 10px rgba(15,23,42,.10)!important}
 .studentAccessTabs .studentAccessTab:hover{color:#1d4ed8!important}
 @media(max-width:650px){.studentAccessTabs{max-width:none;margin:18px 0 22px}.studentAccessTabs .studentAccessTab{min-height:40px;font-size:13px!important;padding:8px}}
+
+/* Campus role selector */
+.campusRoleTabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;margin:20px 0 24px;background:#eef2f7;border:1px solid #dce3ec;border-radius:14px}
+.loginCard .campusRoleTabs button{min-height:42px;margin:0;padding:9px 12px;border:0!important;border-radius:10px!important;background:transparent!important;color:#64748b!important;font-size:14px!important;font-weight:700!important;box-shadow:none!important}
+.loginCard .campusRoleTabs button.active{background:#fff!important;color:#2563eb!important;box-shadow:0 3px 10px rgba(15,23,42,.10)!important}
+.facultyCreateLink{display:inline-block;margin:16px 0 4px;font-weight:700;font-size:14px;color:#1d4ed8;text-decoration:none}
+@media(max-width:650px){.campusRoleTabs{margin:16px 0 20px}.loginCard .campusRoleTabs button{min-height:40px;font-size:13px!important;padding:8px}}
