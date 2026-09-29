@@ -17,7 +17,7 @@ import in.rkgitm.hub.achievement.*;import in.rkgitm.hub.content.*;import org.spr
   m.put("research",content.countByTypeAndPublished(ContentItem.Type.RESEARCH,true));
   m.put("events",content.countByTypeAndPublished(ContentItem.Type.EVENT,true));
   m.put("students",rows(PortalUser.Role.STUDENT,false));m.put("faculty",rows(PortalUser.Role.FACULTY,false));m.put("archivedFaculty",rows(PortalUser.Role.FACULTY,true));
-  m.put("recentAudit",audits.findTop100ByOrderByCreatedAtDesc().stream().limit(12).toList());
+  m.put("recentAudit",audits.findTop100ByOrderByCreatedAtDesc().stream().filter(x->x.getCreatedAt().isAfter(Instant.now().minusSeconds(120))).limit(12).toList());
   return m;
  }
  @GetMapping("/audit") public List<AuditLog> audit(){return audits.findTop100ByOrderByCreatedAtDesc();}
