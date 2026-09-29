@@ -27,8 +27,8 @@ export default function Login(){
    </div>
    {facultyView==="CREATE" ? (
     <div className="facultyCreateBox">
-     {facultyStatus&&<div className={"facultyApplicationStatus "+String(facultyStatus.status).toLowerCase()}><strong>{facultyStatus.status==="PENDING"?"Waiting for Super Admin approval":facultyStatus.status==="APPROVED"?"Faculty account approved":"Faculty request rejected"}</strong>{facultyStatus.status==="PENDING"&&<p>Your request is currently under review.</p>}{facultyStatus.status==="APPROVED"&&<><p>Your Faculty User ID is <b>{facultyStatus.userId}</b></p><button type="button" onClick={()=>navigator.clipboard.writeText(facultyStatus.userId||"")}>Copy User ID</button></>}{facultyStatus.status==="REJECTED"&&<p>Reason: {facultyStatus.rejectionReason||"Not provided"}</p>}</div>}
-     <p>New faculty must first verify their RKGITM identity. After Super Admin approval, a unique Faculty User ID will be generated.</p>
+     {facultyStatus&&<div className={"facultyApplicationStatus "+String(facultyStatus.status).toLowerCase()}><strong>{facultyStatus.status==="PENDING"?"Waiting for Super Admin approval":facultyStatus.status==="APPROVED"?"Faculty account approved":"Faculty request rejected"}</strong>{facultyStatus.status==="PENDING"&&<p>Your request is currently under review.</p>}{facultyStatus.status==="APPROVED"&&<p>Your faculty account has been approved. Your Faculty User ID has been delivered through the secure institutional channel. It is not displayed on this page.</p>}{facultyStatus.status==="REJECTED"&&<p>Reason: {facultyStatus.rejectionReason||"Not provided"}</p>}</div>}
+     <p>New faculty must first verify their RKGITM identity. After Super Admin approval, a unique Faculty User ID will be generated and delivered securely. It will not be shown on this public status page.</p>
      <a className="facultyCreateCta" href="/register?role=FACULTY">Create Faculty Account →</a>
      <small>Name • Department • RKGITM Faculty ID Card • Password</small>
     </div>
