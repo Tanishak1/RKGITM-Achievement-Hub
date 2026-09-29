@@ -1,11 +1,10 @@
 "use client";
-import {FormEvent,useEffect,useState} from "react";
+import {FormEvent,useState} from "react";
 import {useRouter} from "next/navigation";
 const API=process.env.NEXT_PUBLIC_API_URL;
 type Status={status:"PENDING"|"APPROVED"|"REJECTED";rejectionReason?:string;universityRollNo?:string};
 export default function StudentAccess(){
  const router=useRouter();const [mode,setMode]=useState<"create"|"login">("create"),[msg,setMsg]=useState(""),[busy,setBusy]=useState(false),[status,setStatus]=useState<Status|null>(null);
- useEffect(()=>{const id=localStorage.getItem("rkgitm_student_request_id");if(id&&API)fetch(API+"/api/registration/student-status/"+id).then(r=>r.ok?r.json():null).then(d=>d&&setStatus(d)).catch(()=>{})},[]);
  async function createAccount(e:FormEvent<HTMLFormElement>){
   e.preventDefault();setMsg("");const form=e.currentTarget,fd=new FormData(form);const password=String(fd.get("password")||""),confirm=String(fd.get("confirmPassword")||""),roll=String(fd.get("universityRollNo")||"").trim();if(password!==confirm){setMsg("Password and Confirm Password do not match.");return}if(!API){setMsg("Registration service is unavailable.");return}setBusy(true);
   const payload=new FormData();payload.set("collegeRollNo",roll);payload.set("universityRollNo",roll);payload.set("name",String(fd.get("name")||"").trim());payload.set("department",String(fd.get("department")||"").trim());payload.set("studyYear",String(fd.get("studyYear")||"").trim());payload.set("requestedRole","STUDENT");payload.set("password",password);const card=fd.get("idCard");if(card instanceof File)payload.set("idCard",card);
