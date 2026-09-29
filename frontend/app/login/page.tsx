@@ -3,7 +3,7 @@ import {FormEvent,useState} from "react";
 import {useRouter} from "next/navigation";
 const API=process.env.NEXT_PUBLIC_API_URL;
 export default function Login(){
- const router=useRouter();const [mode,setMode]=useState<"ADMIN"|"FACULTY">("ADMIN"),[msg,setMsg]=useState(""),[busy,setBusy]=useState(false);
+ const router=useRouter();const [mode,setMode]=useState<"ADMIN"|"FACULTY">("ADMIN"),[facultyView,setFacultyView]=useState<"CREATE"|"LOGIN">("CREATE"),[msg,setMsg]=useState(""),[busy,setBusy]=useState(false);
  async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(!API){setMsg("Authentication service is unavailable.");return}setBusy(true);setMsg("");const fd=new FormData(e.currentTarget);try{const r=await fetch(API+"/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:fd.get("username"),password:fd.get("password")})});if(!r.ok)throw new Error();const data=await r.json();if(mode==="ADMIN"&&data.role!=="ADMIN")throw new Error();if(mode==="FACULTY"&&data.role!=="FACULTY")throw new Error();sessionStorage.setItem("rkgitm_token",data.token);sessionStorage.setItem("rkgitm_role",data.role);sessionStorage.setItem("rkgitm_uid",data.uid||"");router.replace(mode==="ADMIN"?"/admin":"/faculty")}catch{setMsg(mode==="ADMIN"?"Invalid Super Admin credentials.":"Invalid faculty credentials or faculty account is not approved yet.")}finally{setBusy(false)}}
  return <main className="loginPage"><a href="/" className="backLink">← Public Achievement Hub</a><section className="loginCard">
  <div className="loginBrand"><span>RA</span><div><strong>RKGITM Achievement Hub</strong><small>Authorized access</small></div></div>
