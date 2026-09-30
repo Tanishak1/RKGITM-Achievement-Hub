@@ -4,7 +4,7 @@ const API=process.env.NEXT_PUBLIC_API_URL;
 type A={id:number;title:string;studentName:string;department?:string;category?:string;description?:string;proofUrl?:string;createdAt?:string;studentUid?:string};
 export default function Achievements(){
  const [items,setItems]=useState<A[]>([]),[loading,setLoading]=useState(true),[q,setQ]=useState(""),[dept,setDept]=useState("ALL"),[cat,setCat]=useState("ALL");
- useEffect(()=>{if(!API){setLoading(false);return}fetch(API+"/api/achievements/public").then(r=>r.ok?r.json():[]).then(setItems).catch(()=>setItems([])).finally(()=>setLoading(false))},[]);
+ useEffect(()=>{if(!API){setLoading(false);return}fetch(API+"/api/achievements/public").then(r=>r.ok?r.json():[]).then((data:A[])=>setItems(data.filter(x=>!["PROJECT","RESEARCH"].includes((x.category||"").toUpperCase()))).catch(()=>setItems([])).finally(()=>setLoading(false))},[]);
  const departments=useMemo(()=>Array.from(new Set(items.map(x=>x.department).filter(Boolean) as string[])).sort(),[items]);
  const cats=useMemo(()=>Array.from(new Set(items.map(x=>x.category).filter(Boolean) as string[])).sort(),[items]);
  const shown=items.filter(x=>(q===""||(x.title+" "+x.studentName+" "+(x.description||"")).toLowerCase().includes(q.toLowerCase()))&&(dept==="ALL"||x.department===dept)&&(cat==="ALL"||x.category===cat));
