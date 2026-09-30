@@ -11,7 +11,7 @@ import org.springframework.context.annotation.*;import org.springframework.beans
     .requestMatchers("/api/auth/login","/api/registration","/api/registration/faculty-status/**","/api/registration/student-status/**","/api/achievements/public","/api/content/public/**","/api/profile/**","/api/health").permitAll()
     .requestMatchers("/api/super-admin/**").hasRole("ADMIN")
     .requestMatchers("/api/registration/review/**").hasAnyRole("FACULTY","ADMIN")
-    .requestMatchers(org.springframework.http.HttpMethod.POST,"/api/achievements").hasRole("STUDENT")
+    .requestMatchers(org.springframework.http.HttpMethod.POST,"/api/achievements").hasAnyRole("STUDENT","ADMIN")
     .requestMatchers("/api/content/admin/**").hasAnyRole("FACULTY","ADMIN")
     .requestMatchers("/api/achievements/pending","/api/achievements/admin","/api/achievements/*/status").hasAnyRole("FACULTY","ADMIN")
     .anyRequest().authenticated())
