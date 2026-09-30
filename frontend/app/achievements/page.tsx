@@ -1,14 +1,17 @@
 "use client";
-import {useEffect,useMemo,useState} from "react";
+import {useEffect,useState} from "react";
 const API=process.env.NEXT_PUBLIC_API_URL;
-type A={id:number;title:string;studentName:string;department?:string;category?:string;description?:string;proofUrl?:string;createdAt?:string;studentUid?:string};
+type A={id:number;title:string;studentName:string;department?:string;category?:string;description?:string;proofUrl?:string;createdAt?:string;studentUid?:string;photoUrls?:string[]};
 export default function Achievements(){
- const [items,setItems]=useState<A[]>([]),[loading,setLoading]=useState(true),[q,setQ]=useState(""),[dept,setDept]=useState("ALL"),[cat,setCat]=useState("ALL");
+ const [items,setItems]=useState<A[]>([]),[loading,setLoading]=useState(true),[q,setQ]=useState("");
  useEffect(()=>{if(!API){setLoading(false);return}fetch(API+"/api/achievements/public").then(r=>r.ok?r.json():[]).then((data:A[])=>setItems(data.filter(x=>!["PROJECT","RESEARCH"].includes((x.category||"").toUpperCase()))).catch(()=>setItems([])).finally(()=>setLoading(false))},[]);
- const departments=useMemo(()=>Array.from(new Set(items.map(x=>x.department).filter(Boolean) as string[])).sort(),[items]);
- const cats=useMemo(()=>Array.from(new Set(items.map(x=>x.category).filter(Boolean) as string[])).sort(),[items]);
- const shown=items.filter(x=>(q===""||(x.title+" "+x.studentName+" "+(x.description||"")).toLowerCase().includes(q.toLowerCase()))&&(dept==="ALL"||x.department===dept)&&(cat==="ALL"||x.category===cat));
- return <main className="directoryPage"><a className="backLink" href="/">← Achievement Hub</a><header className="directoryHero"><p className="eyebrow">VERIFIED CAMPUS RECORDS</p><h1>Achievements that<br/><em>stand on evidence.</em></h1><p>Only institutionally approved student milestones appear in this public showcase.</p></header>
- <div className="publicFilters"><input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search achievement or student…"/><select value={dept} onChange={e=>setDept(e.target.value)}><option value="ALL">All departments</option>{departments.map(x=><option key={x}>{x}</option>)}</select><select value={cat} onChange={e=>setCat(e.target.value)}><option value="ALL">All categories</option>{cats.map(x=><option key={x}>{x}</option>)}</select></div>
- {loading?<div className="showcaseSkeleton"><i/><i/><i/></div>:shown.length?<section className="directoryGrid">{shown.map(a=><article key={a.id}><span>{a.category||"Achievement"} • {a.department||"RKGITM"}</span><h2>{a.title}</h2><strong>{a.studentName}</strong><p>{a.description}</p><small>{a.createdAt?new Date(a.createdAt).toLocaleDateString():"Verified record"}</small><div className="recordActions">{a.studentUid&&<a className="recordLink" href={"/profile/"+encodeURIComponent(a.studentUid)}>Student profile →</a>}{a.proofUrl&&<a className="recordLink" href={a.proofUrl} target="_blank" rel="noreferrer">Evidence ↗</a>}</div></article>)}</section>:<div className="contentState"><strong>No matching verified records.</strong><p>Try changing the search or filters.</p></div>}</main>
+ const shown=items.filter(x=>q===""||(x.title+" "+x.studentName+" "+(x.description||"")).toLowerCase().includes(q.toLowerCase()));
+ return <main className="directoryPage achievementFeed"><a className="backLink" href="/">← Achievement Hub</a><header className="directoryHero"><p className="eyebrow">VERIFIED CAMPUS STORIES</p><h1>Achievements worth<br/><em>celebrating.</em></h1><p>Approved student milestones, shared as stories rather than records.</p></header>
+ <div className="achievementSearch"><input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search student or achievement…"/></div>
+ {loading?<div className="showcaseSkeleton"><i/><i/><i/></div>:shown.length?<section className="achievementPostGrid">{shown.map(a=><article className="achievementPost" key={a.id}>
+  <header><div className="postAvatar">{(a.studentName||"S").slice(0,1).toUpperCase()}</div><div><strong>{a.studentName}</strong><small>{[a.department,a.createdAt?new Date(a.createdAt).toLocaleDateString():null].filter(Boolean).join(" · ")}</small></div><mark>Verified</mark></header>
+  {a.photoUrls?.length?<div className="achievementMedia">{a.photoUrls.map((src,i)=><img key={i} src={src} alt={a.title+" photo "+(i+1)}/>)}</div>:null}
+  <div className="postBody"><h2>{a.title}</h2><p>{a.description}</p></div>
+  <footer>{a.studentUid&&<a className="postAction" href={"/profile/"+encodeURIComponent(a.studentUid)}>View student profile <b>→</b></a>}{a.proofUrl&&<a className="postAction evidence" href={a.proofUrl} target="_blank" rel="noreferrer">View verified evidence <b>↗</b></a>}</footer>
+ </article>)}</section>:<div className="contentState"><strong>No matching verified posts.</strong><p>Try another search.</p></div>}</main>
 }
