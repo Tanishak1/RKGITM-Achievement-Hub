@@ -1111,3 +1111,28 @@
 @media(max-width:800px){.studentNotifications{grid-template-columns:1fr;gap:15px}}
 @media(max-width:520px){.studentNotifications{margin:18px 0 14px;padding:17px 15px;border-radius:13px}.studentNotifications h2{font-size:20px}.notificationItem{padding:12px 11px;gap:9px}.notificationItem b{display:none}}
 @media(prefers-reduced-motion:reduce){.studentNotifications,.profileScore>div,.studentStats article,.dashColumns>section,.studentQuickGrid>a,.notificationItem{animation:none!important;transition:none!important}}
+
+
+/* Student dashboard visual polish */
+.studentDash{background:linear-gradient(135deg,#f7f4ed 0%,#f3f6f8 52%,#f7f4ed 100%)}
+.studentNotifications{position:relative;overflow:hidden;box-shadow:0 10px 32px rgba(17,24,32,.045);transition:transform .22s ease,box-shadow .22s ease}
+.studentNotifications:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(#e6b64c,#d58f35)}
+.studentNotifications:hover{transform:translateY(-2px);box-shadow:0 15px 38px rgba(17,24,32,.075)}
+.studentStats{gap:16px;margin:26px 0 34px}
+.studentStats article{position:relative;overflow:hidden;min-height:138px;justify-content:center;background:rgba(255,255,255,.92);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.studentStats article:before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:#6d8296;opacity:.9}
+.studentStats article:nth-child(2):before{background:#3c9b70}
+.studentStats article:nth-child(3):before{background:#d5a13a}
+.studentStats article:nth-child(4):before{background:#c55c61}
+.studentStats article:hover{transform:translateY(-6px);box-shadow:0 16px 34px rgba(17,24,32,.10);border-color:#d2d7da}
+.studentStats article:nth-child(2):hover{box-shadow:0 16px 34px rgba(44,137,94,.13)}
+.studentStats article:nth-child(3):hover{box-shadow:0 16px 34px rgba(190,139,37,.13)}
+.studentStats article:nth-child(4):hover{box-shadow:0 16px 34px rgba(180,67,74,.12)}
+.studentStats strong{font-size:40px}
+.myPosts article,.studentQuickGrid>a{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.myPosts article:hover,.studentQuickGrid>a:hover{transform:translateY(-4px);box-shadow:0 13px 30px rgba(17,24,32,.085)}
+.studentQuickGrid>a:nth-child(1){border-top:3px solid #4d8fc7}
+.studentQuickGrid>a:nth-child(2){border-top:3px solid #5b9b72}
+.studentQuickGrid>a:nth-child(3){border-top:3px solid #a779bd}
+.studentQuickGrid>a:nth-child(4){border-top:3px solid #d19b3d}
+@media(max-width:520px){.studentStats{gap:10px}.studentStats article{min-height:112px}.studentStats strong{font-size:30px}.studentStats article:hover,.myPosts article:hover,.studentQuickGrid>a:hover{transform:translateY(-2px)}}
