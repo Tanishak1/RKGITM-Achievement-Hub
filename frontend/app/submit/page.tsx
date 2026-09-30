@@ -1,15 +1,18 @@
 "use client";
-import {FormEvent,useMemo,useState} from "react";
+import {FormEvent,useEffect,useMemo,useState} from "react";
+import {useRouter} from "next/navigation";
 const API=process.env.NEXT_PUBLIC_API_URL;
 export default function Submit(){
+ const router=useRouter();
  const [message,setMessage]=useState("");const [busy,setBusy]=useState(false);
  const [studentName,setStudentName]=useState("");const [title,setTitle]=useState("");const [department,setDepartment]=useState("");const [program,setProgram]=useState("B.Tech");const [studyYear,setStudyYear]=useState("");const [description,setDescription]=useState("");const [photos,setPhotos]=useState<string[]>([]);
  function choosePhotos(files?:FileList|null){if(!files)return;const selected=Array.from(files);if(photos.length+selected.length>6){setMessage("You can add up to 6 photos per post.");return}selected.forEach(file=>{if(!file.type.startsWith("image/")){setMessage("Please choose image files only.");return}if(file.size>5*1024*1024){setMessage("Each photo must be under 5 MB.");return}const reader=new FileReader();reader.onload=()=>setPhotos(prev=>[...prev,String(reader.result||"")].slice(0,6));reader.readAsDataURL(file)})}
  function removePhoto(i:number){setPhotos(prev=>prev.filter((_,x)=>x!==i))}
+ useEffect(()=>{const role=sessionStorage.getItem("rkgitm_role"),token=sessionStorage.getItem("rkgitm_token");if(!token||role!=="STUDENT"){sessionStorage.removeItem("rkgitm_token");sessionStorage.removeItem("rkgitm_role");sessionStorage.removeItem("rkgitm_uid");router.replace("/student-access")}},[router]);
  const generated=useMemo(()=>{const who=studentName||"Student";const course=[program,department,studyYear].filter(Boolean).join(", ");const achievement=title||"an achievement";return `${who}${course?", "+course:""} has recently achieved ${achievement}. ${description||"Add a short description of the achievement, role and outcome to complete this post."}`},[studentName,program,department,studyYear,title,description]);
  async function send(e:FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);setMessage("");const form=e.currentTarget;const fd=new FormData(form);const body={studentName,title,department,category:String(fd.get("category")||""),description:generated,proofUrl:String(fd.get("proofUrl")||"")};
   if(!API){setMessage("Preview mode: form UI is ready. Backend deployment will enable live submissions.");setBusy(false);return}
-  try{const r=await fetch(API+"/api/achievements",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+(sessionStorage.getItem("rkgitm_token")||"")},body:JSON.stringify(body)});if(!r.ok){const detail=await r.text();throw new Error(detail||("Request failed ("+r.status+")"))}form.reset();setStudentName("");setTitle("");setDepartment("");setStudyYear("");setDescription("");setPhotos([]);setMessage("Submitted successfully. Your post is pending faculty verification.")}
+  try{const r=await fetch(API+"/api/achievements",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+(sessionStorage.getItem("rkgitm_token")||"")},body:JSON.stringify(body)});if(!r.ok){if(r.status===401||r.status===403){sessionStorage.removeItem("rkgitm_token");sessionStorage.removeItem("rkgitm_role");sessionStorage.removeItem("rkgitm_uid");router.replace("/student-access");throw new Error("Student session expired. Please sign in again.")}const detail=await r.text();throw new Error(detail||("Request failed ("+r.status+")"))}form.reset();setStudentName("");setTitle("");setDepartment("");setStudyYear("");setDescription("");setPhotos([]);setMessage("Submitted successfully. Your post is pending faculty verification.")}
   catch(err){setMessage(err instanceof Error&&err.message?("Could not submit: "+err.message):"Submission service is temporarily unavailable. Please try again later.")}finally{setBusy(false)}
  }
  return <main className="formPage"><a className="backLink" href="/">← Back to Achievement Hub</a><div className="formWrap">
