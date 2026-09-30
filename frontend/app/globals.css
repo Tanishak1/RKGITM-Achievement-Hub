@@ -1167,3 +1167,30 @@
 .saAccountActions button:active{transform:translateY(0) scale(.97)}
 .saAccountActions button:focus-visible{outline:3px solid rgba(50,116,181,.18);outline-offset:2px}
 @media(max-width:700px){.saAccountActions{display:grid!important;grid-template-columns:1fr 1fr;width:100%}.saAccountActions button{width:100%}.saAccountActions .saDeleteBtn{grid-column:1/-1}}
+
+
+/* Global interactive button motion */
+button,.primary,.secondary,.actions a,.studentActions a,.saHeader a,.saQuick a,.cmsActions button{
+ transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s ease,filter .18s ease,border-color .18s ease,background-color .18s ease;
+ will-change:transform;
+}
+@media(hover:hover) and (pointer:fine){
+ button:hover,.primary:hover,.secondary:hover,.actions a:hover,.studentActions a:hover,.saHeader a:hover,.cmsActions button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 9px 22px rgba(17,24,32,.11);
+  filter:brightness(1.025);
+ }
+ button:hover:before{transform:translateX(100%)}
+}
+button:active,.primary:active,.secondary:active,.actions a:active,.studentActions a:active,.saHeader a:active,.cmsActions button:active{
+ transform:translateY(0) scale(.97);
+ box-shadow:0 3px 9px rgba(17,24,32,.08);
+}
+button:focus-visible,.primary:focus-visible,.secondary:focus-visible,.actions a:focus-visible,.studentActions a:focus-visible{
+ outline:3px solid rgba(43,112,180,.20);
+ outline-offset:3px;
+}
+button:disabled{transform:none!important;box-shadow:none!important;filter:none!important;opacity:.55;cursor:not-allowed}
+@media(prefers-reduced-motion:reduce){
+ button,.primary,.secondary,.actions a,.studentActions a,.saHeader a,.saQuick a,.cmsActions button{transition:none!important;transform:none!important}
+}
