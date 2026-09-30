@@ -1152,3 +1152,18 @@
 .studentDash:before{width:320px;height:320px;left:-120px;top:18%;background:rgba(34,72,103,.16)}
 .studentDash:after{width:360px;height:360px;right:-150px;bottom:5%;background:rgba(191,135,46,.13)}
 .studentTop,.studentNotifications,.studentStats,.dashColumns{position:relative;z-index:1}
+
+
+/* Admin account action buttons */
+.saAccountActions{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap}
+.saAccountActions button{min-height:36px!important;padding:8px 13px!important;border-radius:9px!important;border:1px solid #d7dde2!important;background:#fff!important;color:#26313a!important;font-size:11px!important;font-weight:750!important;line-height:1!important;white-space:nowrap;cursor:pointer;box-shadow:0 2px 7px rgba(17,24,32,.035);transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease}
+.saAccountActions button:first-child{background:#fff8e8!important;border-color:#e7ca82!important;color:#7b5813!important}
+.saAccountActions button:nth-child(2){background:#edf5ff!important;border-color:#bdd6f0!important;color:#245f98!important}
+.saAccountActions .saDeleteBtn{background:#fff0f0!important;border-color:#efc0c2!important;color:#a42d35!important}
+.saAccountActions button:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(17,24,32,.10)}
+.saAccountActions button:first-child:hover{background:#fff2cf!important;border-color:#d9b45b!important}
+.saAccountActions button:nth-child(2):hover{background:#e1efff!important;border-color:#9fc4e9!important}
+.saAccountActions .saDeleteBtn:hover{background:#ffe2e3!important;border-color:#df969a!important}
+.saAccountActions button:active{transform:translateY(0) scale(.97)}
+.saAccountActions button:focus-visible{outline:3px solid rgba(50,116,181,.18);outline-offset:2px}
+@media(max-width:700px){.saAccountActions{display:grid!important;grid-template-columns:1fr 1fr;width:100%}.saAccountActions button{width:100%}.saAccountActions .saDeleteBtn{grid-column:1/-1}}
