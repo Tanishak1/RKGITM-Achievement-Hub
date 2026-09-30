@@ -4,6 +4,7 @@ const API=process.env.NEXT_PUBLIC_API_URL;
 export default function Submit(){
  const [message,setMessage]=useState("");const [busy,setBusy]=useState(false);
  const [studentName,setStudentName]=useState("");const [title,setTitle]=useState("");const [department,setDepartment]=useState("");const [program,setProgram]=useState("B.Tech");const [studyYear,setStudyYear]=useState("");const [description,setDescription]=useState("");const [photoUrl,setPhotoUrl]=useState("");
+ function choosePhoto(file?:File){if(!file)return;if(!file.type.startsWith("image/")){setMessage("Please choose an image file.");return}if(file.size>5*1024*1024){setMessage("Photo must be under 5 MB.");return}const reader=new FileReader();reader.onload=()=>setPhotoUrl(String(reader.result||""));reader.readAsDataURL(file)}
  const generated=useMemo(()=>{const who=studentName||"Student";const course=[program,department,studyYear].filter(Boolean).join(", ");const achievement=title||"an achievement";return `${who}${course?", "+course:""} has recently achieved ${achievement}. ${description||"Add a short description of the achievement, role and outcome to complete this post."}`},[studentName,program,department,studyYear,title,description]);
  async function send(e:FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);setMessage("");const form=e.currentTarget;const fd=new FormData(form);const body=Object.fromEntries(fd.entries());body.description=generated;
   if(!API){setMessage("Preview mode: form UI is ready. Backend deployment will enable live submissions.");setBusy(false);return}
@@ -18,9 +19,9 @@ export default function Submit(){
   <div className="two"><label>Program<select name="program" value={program} onChange={e=>setProgram(e.target.value)}><option>B.Tech</option><option>B.Arch</option><option>M.Tech</option><option>MBA</option><option>Other</option></select></label><label>Department<input name="department" value={department} onChange={e=>setDepartment(e.target.value)} required placeholder="e.g. CSE"/></label></div>
   <label>Study year<input name="studyYear" value={studyYear} onChange={e=>setStudyYear(e.target.value)} placeholder="e.g. 3rd Year"/></label>
   <label>Your achievement story<textarea value={description} onChange={e=>setDescription(e.target.value)} required minLength={20} rows={5} placeholder="What did you achieve? Mention your role, event/project and outcome."/></label>
-  <label>Post photo / image URL<input name="photoUrl" type="url" value={photoUrl} onChange={e=>setPhotoUrl(e.target.value)} placeholder="Paste an image URL"/></label>
+  <label className="photoUpload">Post photo <input type="file" accept="image/*" onChange={e=>choosePhoto(e.target.files?.[0])}/><span>＋ Choose photo</span><small>JPG, PNG or WEBP • Max 5 MB</small></label>
   <label>Evidence / proof URL<input name="proofUrl" type="url" placeholder="Certificate, official result, GitHub or portfolio URL"/></label>
-  <input type="hidden" name="description" value={generated}/>
+  <input type="hidden" name="description" value={generated}/><input type="hidden" name="photoUrl" value={photoUrl}/>
   <div className="verificationNote"><strong>Verification first.</strong><span>Your post becomes public only after an authorized faculty reviewer approves the evidence.</span></div>
   <button disabled={busy} type="submit">{busy?"Submitting…":"Submit post for verification →"}</button>{message&&<p className="notice" role="status">{message}</p>}
  </form>
