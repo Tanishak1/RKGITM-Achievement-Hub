@@ -4,7 +4,7 @@ const API=process.env.NEXT_PUBLIC_API_URL;
 type A={id:number;title:string;studentName:string;department?:string;category?:string;description?:string;proofUrl?:string;createdAt?:string;studentUid?:string;};
 export default function Achievements(){
  const [items,setItems]=useState<A[]>([]),[loading,setLoading]=useState(true),[q,setQ]=useState("");
- useEffect(()=>{if(!API){setLoading(false);return}fetch(API+"/api/achievements/public").then(r=>r.ok?r.json():[]).then((data:A[])=>setItems(data.filter(x=>!["PROJECT","RESEARCH"].includes((x.category||"").toUpperCase()))).catch(()=>setItems([])).finally(()=>setLoading(false))},[]);
+ useEffect(()=>{if(!API){setLoading(false);return}fetch(API+"/api/achievements/public").then(r=>r.ok?r.json():[]).then((data)=>setItems((data as A[]).filter((x:A)=>!["PROJECT","RESEARCH"].includes((x.category||"").toUpperCase()))).catch(()=>setItems([])).finally(()=>setLoading(false))},[]);
  const shown=items.filter(x=>q===""||(x.title+" "+x.studentName+" "+(x.description||"")).toLowerCase().includes(q.toLowerCase()));
  return <main className="directoryPage achievementFeed"><a className="backLink" href="/">← Achievement Hub</a><header className="directoryHero"><p className="eyebrow">VERIFIED CAMPUS STORIES</p><h1>Achievements worth<br/><em>celebrating.</em></h1><p>Approved student milestones, shared as stories rather than records.</p></header>
  <div className="achievementSearch"><input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search student or achievement…"/></div>
