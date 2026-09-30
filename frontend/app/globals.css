@@ -1194,3 +1194,23 @@ button:disabled{transform:none!important;box-shadow:none!important;filter:none!i
 @media(prefers-reduced-motion:reduce){
  button,.primary,.secondary,.actions a,.studentActions a,.saHeader a,.saQuick a,.cmsActions button{transition:none!important;transform:none!important}
 }
+
+
+/* LinkedIn-style student achievement composer */
+.formWrap{max-width:1180px}
+.composerLayout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:28px;align-items:start;margin-top:28px}
+.composerLayout form{min-width:0}
+.postPreview{position:sticky;top:24px;background:#fff;border:1px solid #dfe4e8;border-radius:18px;padding:24px;box-shadow:0 16px 45px rgba(17,24,32,.08);overflow:hidden;animation:studentEnter .45s ease both}
+.postPreview:before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,#3778b8,#d3a03c,#765d9b)}
+.postAuthor{display:flex;align-items:center;gap:12px;margin:18px 0}
+.postAuthor>span{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#172534;color:#fff;font-weight:800}
+.postAuthor strong,.postAuthor small{display:block}.postAuthor small{color:#727b82;margin-top:4px}
+.postPreview>img{width:100%;max-height:300px;object-fit:cover;border-radius:13px;margin:4px 0 18px;border:1px solid #e2e6e9}
+.postPreview h2{font-size:24px;line-height:1.15;margin:14px 0 10px}
+.postPreview>p{line-height:1.65;color:#4e585f;overflow-wrap:anywhere}
+.postPreviewFoot{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid #e7eaec;margin-top:20px;padding-top:16px;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+.postPreviewFoot b{color:#9b6c13;background:#fff4d9;padding:7px 9px;border-radius:20px}
+.composerLayout input,.composerLayout select,.composerLayout textarea{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.composerLayout input:focus,.composerLayout select:focus,.composerLayout textarea:focus{outline:none;border-color:#719bc1;box-shadow:0 0 0 4px rgba(69,125,178,.10)}
+@media(max-width:900px){.composerLayout{grid-template-columns:1fr}.postPreview{position:relative;top:auto;order:-1}}
+@media(max-width:520px){.composerLayout{gap:18px}.postPreview{padding:18px;border-radius:14px}.postPreview h2{font-size:21px}.postPreviewFoot{align-items:flex-start;flex-direction:column}}
