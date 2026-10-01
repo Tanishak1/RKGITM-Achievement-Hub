@@ -1280,3 +1280,17 @@ button:disabled{transform:none!important;box-shadow:none!important;filter:none!i
  .achievementFeed .achievementPost{flex:0 0 84%!important;width:84%!important;min-height:500px}
  .achievementFeed .achievementMedia img{height:250px!important}
 }
+
+/* Compact achievement cards */
+.achievementFeed .achievementPost{flex:0 0 clamp(250px,27vw,340px)!important;width:clamp(250px,27vw,340px)!important;min-height:390px!important;border-radius:18px!important;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease!important}
+.achievementFeed .achievementPost:hover{transform:translateY(-5px) scale(1.012)!important}
+.achievementFeed .achievementPost>header{padding:14px 15px!important}
+.achievementFeed .achievementMedia img{height:205px!important}
+.achievementFeed .postBody{padding:16px 16px 12px!important}
+.achievementFeed .postBody h2{font-size:22px!important;margin-bottom:8px!important}
+.achievementFeed .postBody p{font-size:14px!important;line-height:1.55!important;-webkit-line-clamp:3!important}
+.achievementFeed .achievementPost>footer{padding:0 16px 16px!important}
+@media(max-width:600px){
+ .achievementFeed .achievementPost{flex:0 0 72%!important;width:72%!important;min-height:370px!important}
+ .achievementFeed .achievementMedia img{height:190px!important}
+}
