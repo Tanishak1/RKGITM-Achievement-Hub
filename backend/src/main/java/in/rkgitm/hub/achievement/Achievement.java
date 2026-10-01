@@ -8,7 +8,7 @@ public class Achievement {
  private String department; private String category;
  @Column(length=2000) private String description;
  private String proofUrl; private String studentUid;
- @ElementCollection @CollectionTable(name="achievement_photos",joinColumns=@JoinColumn(name="achievement_id")) @Column(name="photo_url",length=7000000) private List<String> photoUrls=new ArrayList<>();
+ @ElementCollection(fetch=FetchType.EAGER) @CollectionTable(name="achievement_photos",joinColumns=@JoinColumn(name="achievement_id")) @Column(name="photo_url",length=7000000) private List<String> photoUrls=new ArrayList<>();
  @Enumerated(EnumType.STRING) @Column(nullable=false) private Status status=Status.PENDING;
  @Column(length=1000) private String rejectionReason; private String reviewedBy; private Instant reviewedAt;
  @Column(nullable=false) private Instant createdAt=Instant.now();
