@@ -1,3 +1,11 @@
 package in.rkgitm.hub.config;
-import org.springframework.context.annotation.*; import org.springframework.security.config.annotation.web.builders.HttpSecurity; import org.springframework.security.web.SecurityFilterChain;
-public class SecurityConfig{@Bean SecurityFilterChain filterChain(HttpSecurity http)throws Exception{return http.csrf(c->c.disable()).authorizeHttpRequests(a->a.requestMatchers("/api/achievements/public").permitAll().requestMatchers(org.springframework.http.HttpMethod.POST,"/api/achievements").permitAll().anyRequest().authenticated()).httpBasic(b->{}).build();}}
+
+/**
+ * Security is configured centrally in in.rkgitm.hub.security.SecurityConfig.
+ * This class intentionally contains no SecurityFilterChain bean so public
+ * routes such as /api/achievements/public are not intercepted by a second,
+ * conflicting chain.
+ */
+public final class SecurityConfig {
+ private SecurityConfig() {}
+}
