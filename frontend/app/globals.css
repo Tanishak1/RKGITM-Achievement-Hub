@@ -1262,3 +1262,21 @@ button:disabled{transform:none!important;box-shadow:none!important;filter:none!i
  .achievementPost>footer{padding:0 18px 20px}
  .postAction{flex:1;text-align:center;min-width:145px}
 }
+
+/* Final achievement rail: multiple photo cards per row */
+.achievementFeed .achievementPostGrid{display:flex!important;flex-wrap:nowrap!important;width:calc(100vw - 12vw);max-width:none!important;margin:0!important;padding:14px 4px 38px!important;gap:18px!important;overflow-x:auto!important;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.achievementFeed .achievementPostGrid::-webkit-scrollbar{display:none}
+.achievementFeed .achievementPost{flex:0 0 clamp(300px,31vw,430px)!important;width:clamp(300px,31vw,430px)!important;scroll-snap-align:start;min-height:520px;display:flex;flex-direction:column;transform:none;animation:railCardIn .55s cubic-bezier(.2,.8,.2,1) both}
+.achievementFeed .achievementPost:hover{transform:translateY(-8px) scale(1.015)}
+.achievementFeed .achievementMedia{order:0;padding:0;gap:0;border-radius:0;background:#e9edf0}
+.achievementFeed .achievementMedia img{flex:0 0 100%!important;width:100%!important;height:260px!important;max-height:none!important;border-radius:0!important;object-fit:cover}
+.achievementFeed .postBody{flex:1}
+.achievementFeed .postBody p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.achievementFeed .achievementPost>footer{margin-top:auto}
+@keyframes railCardIn{from{opacity:0;transform:translateX(30px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
+@media(max-width:900px){.achievementFeed .achievementPost{flex-basis:46vw!important;width:46vw!important}}
+@media(max-width:600px){
+ .achievementFeed .achievementPostGrid{width:calc(100vw - 32px);gap:12px!important;padding-bottom:28px!important}
+ .achievementFeed .achievementPost{flex:0 0 84%!important;width:84%!important;min-height:500px}
+ .achievementFeed .achievementMedia img{height:250px!important}
+}
