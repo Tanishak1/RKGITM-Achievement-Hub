@@ -4,7 +4,7 @@ const API=process.env.NEXT_PUBLIC_API_URL;
 type N={id:number;title:string;message?:string;linkUrl?:string;readFlag:boolean;createdAt:string};
 export default function NotificationBell(){
  const [open,setOpen]=useState(false),[items,setItems]=useState<N[]>([]),[unread,setUnread]=useState(0);
- const token=()=>typeof window==="undefined"?"":sessionStorage.getItem("rkgitm_token")||"";
+ const token=()=>typeof window==="undefined"?"":localStorage.getItem("rkgitm_token")||sessionStorage.getItem("rkgitm_token")||"";
  async function load(){if(!API||!token())return;const r=await fetch(API+"/api/notifications",{headers:{Authorization:"Bearer "+token()}});if(r.ok){const d=await r.json();setItems(d.items||[]);setUnread(d.unread||0);if((d.unread||0)>unread)setOpen(true)}}
  useEffect(()=>{void load();const id=window.setInterval(()=>void load(),30000);return()=>window.clearInterval(id)},[]);
  useEffect(()=>{if(!open)return;const id=window.setTimeout(()=>setOpen(false),6000);return()=>window.clearTimeout(id)},[open]);
