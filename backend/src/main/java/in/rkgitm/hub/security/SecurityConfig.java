@@ -8,7 +8,7 @@ import org.springframework.context.annotation.*;import org.springframework.beans
   return http.csrf(c->c.disable()).cors(c->{})
    .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
    .authorizeHttpRequests(a->a
-    .requestMatchers("/api/auth/login","/api/registration","/api/registration/faculty-status/**","/api/registration/student-status/**","/api/achievements/public","/api/content/public/**","/api/profile/**","/api/health").permitAll()
+    .requestMatchers("/api/auth/login","/api/auth/refresh","/api/registration","/api/registration/faculty-status/**","/api/registration/student-status/**","/api/achievements/public","/api/content/public/**","/api/profile/**","/api/health").permitAll()
     .requestMatchers("/api/super-admin/**").hasRole("ADMIN")
     .requestMatchers("/api/registration/review/**").hasAnyRole("FACULTY","ADMIN")
     .requestMatchers(org.springframework.http.HttpMethod.POST,"/api/achievements").authenticated()
